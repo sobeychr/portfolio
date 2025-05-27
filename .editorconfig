@@ -18,5 +18,5 @@ quote_type = double
 max_line_length = off
 quote_type = double
 
-[*.php]
+[*.{html,php}]
 insert_final_newline = false
