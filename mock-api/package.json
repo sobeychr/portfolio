@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-mock-api",
+  "version": "0.0.1",
+  "description": "Stand-alone API tool to return mocked results",
+  "license": "ISC",
+  "author": "",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon -L --env-file=.env src/index.js --config nodemon.config.json"
+  },
+  "devDependencies": {
+    "connect-timeout": "1.9.0",
+    "express": "4.21.1",
+    "nodemon": "3.1.7",
+    "response-time": "2.3.3"
+  }
+}

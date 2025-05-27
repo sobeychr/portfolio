@@ -1,0 +1,14 @@
+{
+  "mock": "data",
+  "alpha": "beta",
+  "gamma": [
+    123,
+    456,
+    789
+  ],
+  "test": {
+    "some": {
+      "value": "mocked"
+    }
+  }
+}
