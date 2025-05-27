@@ -6,7 +6,7 @@ export const getBuildDetails = () => {
     ['-v'],
     { encoding: 'utf-8', shell: true, timeout: 2500 },
   );
-  const npmVersion = (String(npmData?.stdout) || '').replace(/[^\d\.]+/g, '');
+  const npmVersion = String(npmData?.stdout || '').replace(/[^\d\.]+/g, '');
 
   const nodeVersion = process?.versions?.node || '!invalid';
   const plat = (process?.platform || '').toLowerCase();
@@ -29,11 +29,11 @@ export const getGitLogs = () => {
       commands,
       { encoding: 'utf-8', timeout: 2500 },
     );
-    const str = String(data?.stdout) || '';
+    const str = String(data?.stdout || '');
     return str.substring(0, str.length - 1);
   };
 
-  const split = 'TTTT';
+  const split = ',';
   const format = ['%h', '%ad'].join(split);
   const logs = execLog(['log', '--max-count=1', '--date=unix', `--pretty=${format}`]);
   const tags = execLog(['tag', '-l', '--sort=-taggerdate']);
