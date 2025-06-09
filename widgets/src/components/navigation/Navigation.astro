@@ -1,14 +1,15 @@
 ---
 import { PAGES } from '@utils/configs';
+import Link from '@components/link/Link.astro';
 import styles from './styles.module.scss';
 ---
 
 <nav class={styles.nav}>
   {
     PAGES.map(({ name, pathname }) => (
-      <a class={styles.link} href={pathname}>
+      <Link class={styles.link} href={pathname}>
         {name}
-      </a>
+      </Link>
     ))
   }
 </nav>

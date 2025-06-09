@@ -3,6 +3,7 @@ import { loadEnv } from 'vite';
 import node from '@astrojs/node';
 import packageJson from './package.json';
 import { resolve } from 'path';
+import solidJs from '@astrojs/solid-js';
 
 const envConfigs = loadEnv('', process.cwd(), '');
 const SRC_DIR = resolve(process.cwd(), './src/') + '/';
@@ -24,6 +25,9 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
+  integrations: [
+    solidJs(),
+  ],
   output: 'server',
   server: {
     host: SERVER_HOST,
@@ -37,7 +41,6 @@ export default defineConfig({
     // SCSS aliases
     resolve: {
       alias: {
-        // '@t-components/': `${SRC_DIR}components/`,
         '@styles/': `${SRC_DIR}styles/`,
       },
     },

@@ -1,0 +1,17 @@
+.button {
+  --color: var(--link-color);
+  background: var(--bg-color-dark);
+  color: var(--color);
+  border: 2px solid var(--color);
+  border-radius: var(--radius);
+  margin: 0.3em;
+  padding: 0.3em 0.5em;
+
+  &:hover {
+    --color: var(--link-color-hover);
+  }
+}
+
+.wrapper {
+  margin: 2em;
+}

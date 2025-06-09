@@ -14,12 +14,6 @@ a {
   color: var(--color);
   text-decoration: none;
 
-  &:disabled {
-    --color: var(--link-color-disabled);
-
-    pointer-events: none;
-  }
-
   &:hover {
     --color: var(--link-color-hover);
 
@@ -47,6 +41,12 @@ h6 {
 
 label[for] {
   cursor: pointer;
+}
+
+main {
+  margin: 1em auto;
+  padding: 0 1.5em;
+  max-width: 750px;
 }
 
 p {

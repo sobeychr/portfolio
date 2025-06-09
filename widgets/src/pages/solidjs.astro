@@ -1,0 +1,13 @@
+---
+import Default from '@layouts/Default.astro';
+import SolidJsWidget from '@components/widgets/solidjs';
+---
+
+<Default>
+  <main>
+    <h1>Test-Widgets - SolidJS</h1>
+    <p>lorem ipsum</p>
+
+    <SolidJsWidget client:only="solid-js" />
+  </main>
+</Default>
