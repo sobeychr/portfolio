@@ -1,5 +1,6 @@
 ---
 import Navigation from '@components/navigation/Navigation.astro';
+const tags = Astro.locals?.tags || [];
 ---
 
 <html>
@@ -18,6 +19,8 @@ import Navigation from '@components/navigation/Navigation.astro';
       /* https://fonts.google.com/selection/embed */
       @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,400;1,700&display=swap');
     </style>
+
+    {tags.map(({ attributes = {}, tag: Tag }) => <Tag {...attributes} />)}
   </head>
   <body>
     <Navigation />
