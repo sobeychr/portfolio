@@ -1,0 +1,46 @@
+import { defineConfig } from 'astro/config';
+import { loadEnv } from 'vite';
+import node from '@astrojs/node';
+import { resolve } from 'path';
+import packageJson from './package.json';
+
+const envConfigs = loadEnv('', process.cwd(), '');
+
+const {
+  SERVER_HOST = 'localhost.local',
+  SERVER_PORT = '3000',
+} = envConfigs;
+
+const { version = '0.0.1' } = packageJson;
+
+console.log('> Running Test-Widgets');
+
+export default defineConfig({
+  adapter: node({
+    mode: 'standalone',
+  }),
+  compressHTML: true,
+  devToolbar: {
+    enabled: false,
+  },
+  output: 'server',
+  server: {
+    host: SERVER_HOST,
+    port: parseInt(SERVER_PORT, 10),
+  },
+  trailingSlash: 'never',
+  vite: {
+    define: {
+      'import.meta.env.VERSION': JSON.stringify(version),
+    },
+    // SCSS aliases
+    /*
+    resolve: {
+      alias: {
+        '@t-components/': `${SRC_DIR}components/`,
+        '@t-styles/': `${SRC_DIR}styles/`,
+      },
+    },
+    */
+  },
+});
