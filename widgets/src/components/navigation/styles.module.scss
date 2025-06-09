@@ -1,0 +1,28 @@
+@use '@styles/_helpers.scss' as helpers;
+
+.link {
+  --icon-color: var(--color);
+
+  align-items: center;
+  display: flex;
+  text-transform: capitalize;
+
+  &:nth-child(n + 2) {
+    margin-top: 0.5em;
+  }
+
+  &::before {
+    @include helpers.quickIcon('rightArrow.svg');
+  }
+}
+
+.nav {
+  border: 1px solid var(--link-color-disabled);
+  border-radius: 0.8em;
+  display: flex;
+  flex-flow: column nowrap;
+  left: 0;
+  padding: 0.8em;
+  position: absolute;
+  top: 10%;
+}

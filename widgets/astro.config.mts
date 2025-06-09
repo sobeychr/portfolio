@@ -1,10 +1,11 @@
 import { defineConfig } from 'astro/config';
 import { loadEnv } from 'vite';
 import node from '@astrojs/node';
-import { resolve } from 'path';
 import packageJson from './package.json';
+import { resolve } from 'path';
 
 const envConfigs = loadEnv('', process.cwd(), '');
+const SRC_DIR = resolve(process.cwd(), './src/') + '/';
 
 const {
   SERVER_HOST = 'localhost.local',
@@ -34,13 +35,11 @@ export default defineConfig({
       'import.meta.env.VERSION': JSON.stringify(version),
     },
     // SCSS aliases
-    /*
     resolve: {
       alias: {
-        '@t-components/': `${SRC_DIR}components/`,
-        '@t-styles/': `${SRC_DIR}styles/`,
+        // '@t-components/': `${SRC_DIR}components/`,
+        '@styles/': `${SRC_DIR}styles/`,
       },
     },
-    */
   },
 });

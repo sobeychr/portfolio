@@ -1,0 +1,14 @@
+---
+import { PAGES } from '@utils/configs';
+import styles from './styles.module.scss';
+---
+
+<nav class={styles.nav}>
+  {
+    PAGES.map(({ name, pathname }) => (
+      <a class={styles.link} href={pathname}>
+        {name}
+      </a>
+    ))
+  }
+</nav>
