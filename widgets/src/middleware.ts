@@ -1,6 +1,6 @@
 import { sequence } from 'astro:middleware';
-import { startMiddleware } from '@middlewares/core/start';
+import { backendMiddleware } from '@middlewares/backend';
 
 export const onRequest = sequence(
-  startMiddleware,
+  backendMiddleware,
 );

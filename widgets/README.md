@@ -38,3 +38,4 @@ Make sure your virtual host is added for custom `SERVER_HOST`
 1. `http://test-widgets.local:3000/` home page, explains the basics
 2. `http://test-widgets.local:3000/solidjs` base widget page, explains the core widget
 3. `http://test-widgets.local:3000/subchild` sub-child page, a parent widget loading the base widget
+4. `http://test-widgets.local:3000/backend` back-end page, widget is loaded by back-end and mounted by front-end
