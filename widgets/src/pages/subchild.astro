@@ -1,0 +1,13 @@
+---
+import SubchildWidget from '@components/widgets/sub-child';
+import Default from '@layouts/Default.astro';
+---
+
+<Default>
+  <main>
+    <h1>Test-Widgets - SubChild</h1>
+    <p>lorem ipsum</p>
+
+    <SubchildWidget client:only="solid-js" />
+  </main>
+</Default>

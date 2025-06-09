@@ -45,11 +45,30 @@ label[for] {
 
 main {
   margin: 1em auto;
-  padding: 0 1.5em;
   max-width: 750px;
+  padding: 0 1.5em;
 }
 
 p {
   margin: 0 0 0.5em;
   padding: 0;
+}
+
+section.widget {
+  margin: 2em;
+
+  button {
+    --color: var(--link-color);
+
+    background: var(--bg-color-dark);
+    border: 2px solid var(--color);
+    border-radius: var(--radius);
+    color: var(--color);
+    margin: 0.3em;
+    padding: 0.3em 0.5em;
+
+    &:hover {
+      --color: var(--link-color-hover);
+    }
+  }
 }

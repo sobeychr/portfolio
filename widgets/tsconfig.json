@@ -31,7 +31,8 @@
     "strictNullChecks": true
   },
   "exclude": [
-    "dist"
+    "dist",
+    "public/widgets"
   ],
   "extends": "astro/tsconfigs/strict",
   "include": [

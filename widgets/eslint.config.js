@@ -10,6 +10,7 @@ const ignoredRecommended = tseslint.configs.recommended.map(entry => ({
     '.vscode/**/*',
     'node_modules/**/*',
     '**/*.min.{js,ts}',
+    'public/widgets/*.{js,ts}',
   ],
 }));
 

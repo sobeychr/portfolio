@@ -1,5 +1,4 @@
 import { createEffect, createSignal, onMount } from 'solid-js';
-import styles from './styles.module.scss';
 
 const getRandom = () => Math.floor(Math.random() * 100);
 
@@ -24,13 +23,13 @@ const SolidJsWidget = () => {
     console.log('Mounting SolidJs widget');
   });
 
-  return <section class={styles.wrapper}>
+  return <section class='widget'>
     <header>
       <h2>Solid JS Widget</h2>
     </header>
 
-    <button class={styles.button} onClick={onAdd}>Add number</button>
-    <button class={styles.button} onClick={onWipe}>Wipe</button>
+    <button onClick={onAdd}>Add number</button>
+    <button onClick={onWipe}>Wipe</button>
 
     <p>Curent number: {number()}</p>
     <p>prev numbers</p>

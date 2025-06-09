@@ -4,12 +4,14 @@
   "description": "Loading various Front-ent widgets for portfolio purpose",
   "version": "0.0.1",
   "scripts": {
-    "astro": "astro",
     "dev": "astro dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "stylelint": "stylelint **/*.{css,scss}",
-    "stylelint:fix": "stylelint **/*.{css,scss} --fix"
+    "stylelint:fix": "stylelint **/*.{css,scss} --fix",
+    "widget": "npm run widget:build && npm run widget:manifest",
+    "widget:build": "vite build",
+    "widget:manifest": "node script/widget.js"
   },
   "dependencies": {
     "@astrojs/node": "9.1.0",
