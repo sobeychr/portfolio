@@ -1,0 +1,15 @@
+---
+import Link from '@components/link/Link.astro';
+import { PAGES } from '@utils/configs';
+import styles from './styles.module.scss';
+---
+
+<nav class={styles.nav}>
+  {
+    PAGES.map(({ name, pathname }) => (
+      <Link class={styles.link} href={pathname}>
+        {name}
+      </Link>
+    ))
+  }
+</nav>

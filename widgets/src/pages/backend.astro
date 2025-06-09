@@ -1,0 +1,29 @@
+---
+import Default from '@layouts/Default.astro';
+import styles from '@styles/pages.module.scss';
+---
+
+<Default>
+  <main>
+    <h1>Test-Widgets - Back-end</h1>
+    <p>
+      The base widget is loaded via back-end. The loading is done through the middleware. It is
+      loading the manifest file and appending the necessary tags before printing the DOM.
+    </p>
+    <p>
+      <span class={styles.warning}>! Important</span> you must run <code>npm run widget</code> to pre-compile
+      the widget.
+    </p>
+    <code>
+      User request page &gt; middleware loads manifest &gt; middleware appends the necessary tags to
+      DOM &gt; browser renders the page with tags &gt; page inline script triggers mounts the widget
+    </code>
+    <div id="widget"></div>
+  </main>
+
+  <script>
+    (function (win) {
+      win?.widgets?.solidjs?.onMount('widget');
+    })(window);
+  </script>
+</Default>

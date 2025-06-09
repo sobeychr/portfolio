@@ -1,0 +1,25 @@
+---
+import styles from './styles.module.scss';
+
+const { class: classStr = '', href, ...rest } = Astro.props;
+
+const currentPath = Astro.url?.pathname || '/';
+const isSame = currentPath === href;
+
+const classes = classStr.split(' ');
+if (isSame) {
+  classes.push(styles.link);
+}
+---
+
+{
+  isSame ? (
+    <span class={classes.join(' ')} {...rest}>
+      <slot />
+    </span>
+  ) : (
+    <a class={classStr} href={href} {...rest}>
+      <slot />
+    </a>
+  )
+}
