@@ -13,9 +13,14 @@ const SubchildWidget = () => {
     window?.widgets?.solidjs?.onMount?.(CONTAINER_ID);
   };
 
-  const onLog = msg => {
+  const onLog = (msg: string) => {
     const da = new Date();
-    const timeStr = `${numLeading(da.getMinutes())}:${numLeading(da.getSeconds())}.${numLeading(da.getMilliseconds(), 3)}`;
+    const timeStr = [
+      numLeading(da.getHours()) + 'h',
+      numLeading(da.getMinutes()) + 'm',
+      numLeading(da.getSeconds()) + 's',
+      numLeading(da.getMilliseconds()) + 'ms',
+    ].join(' ');
     logger.insertAdjacentHTML('beforeend', `<li>[${timeStr}] - ${msg}</li>`);
   };
 

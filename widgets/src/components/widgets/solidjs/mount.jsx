@@ -11,7 +11,7 @@ import SolidJsWidget from '.';
     if (!node) {
       console.error(`[onMount()] unable to mount DOM element #${nodeId}`);
     } else {
-      if (!roots.has(nodeId)) {
+      if (roots.has(nodeId)) {
         console.warn(`[onMount()] unable to mount twice DOM element #${nodeId}`);
       } else {
         const disposer = render(() => <SolidJsWidget />, node);

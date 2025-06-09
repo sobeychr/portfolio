@@ -1,12 +1,24 @@
 ---
 import SubchildWidget from '@components/widgets/sub-child';
 import Default from '@layouts/Default.astro';
+import styles from '@styles/pages/subchild.module.scss';
 ---
 
 <Default>
   <main>
     <h1>Test-Widgets - SubChild</h1>
-    <p>lorem ipsum</p>
+    <p>
+      This is a parent widget loading the base widget. The loading is done dynamically by fetching a
+      manifest file and appending its necessary tags.
+    </p>
+    <p>
+      <span class={styles.warning}>! Important</span> you must run <code>npm run widget</code> to pre-compile
+      the widget.
+    </p>
+    <code>
+      Parent widget &gt; loads manifest file &gt; appends tags &gt; user clicks on button &gt; base
+      widget is appended
+    </code>
 
     <SubchildWidget client:only="solid-js" />
   </main>

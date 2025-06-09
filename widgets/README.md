@@ -1,6 +1,8 @@
-# Boiler Astro
+# Portfolio/widgets
 
-Boiler plate for Astro main project
+## Introduction
+
+Various methods to import front-end widgets to the DOM.
 
 ## Setup
 
@@ -16,7 +18,7 @@ Make sure your virtual host is added for custom `SERVER_HOST`
 * Linux: /etc/hosts
 
 ```
-127.0.0.1 localhost test-astro.local my-custom-domain.env
+127.0.0.1 localhost test-widgets.local my-custom-domain.env
 ```
 
 ## ENV Configs
@@ -30,3 +32,9 @@ Make sure your virtual host is added for custom `SERVER_HOST`
    * if `SERVER_OPEN=0`, open the browser manually
    * double check typo errors `'localhsot:3000' vs 'localhost:3000'`
    * always read the console tab
+
+### Pages
+
+1. `http://test-widgets.local:3000/` home page, explains the basics
+2. `http://test-widgets.local:3000/solidjs` base widget page, explains the core widget
+3. `http://test-widgets.local:3000/subchild` sub-child page, a parent widget loading the base widget

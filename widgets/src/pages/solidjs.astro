@@ -6,7 +6,14 @@ import Default from '@layouts/Default.astro';
 <Default>
   <main>
     <h1>Test-Widgets - SolidJS</h1>
-    <p>lorem ipsum</p>
+    <p>
+      The base widget built in SolidJS. It is imported by <a
+        href="https://docs.astro.build/en/guides/integrations-guide/solid-js/"
+        >Astro's default plugin</a
+      > and <a href="https://docs.astro.build/en/reference/directives-reference/#clientonly"
+        >client directive</a
+      >.
+    </p>
 
     <SolidJsWidget client:only="solid-js" />
   </main>

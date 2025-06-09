@@ -5,6 +5,23 @@ import Default from '@layouts/Default.astro';
 <Default>
   <main>
     <h1>Test-Widgets - Home</h1>
-    <p>lorem ipsum</p>
+    <p>
+      This project uses various methods to import front-end widgets to the DOM. Click a variant on
+      the left to test it out.
+    </p>
+    <p>
+      The base widget is build on <a href="https://docs.solidjs.com/concepts/intro-to-reactivity"
+        >SolidJS</a
+      >. It has minimal functionalities such as <code
+        >createEffect(), onMount(), createSignal()</code
+      >.
+    </p>
+    <code>
+      createEffect() // appends a new &lt;li&gt; tag
+      <br />
+      onMount() // console.log() when mounted
+      <br />
+      createSignal() // changes a number to a random value
+    </code>
   </main>
 </Default>
