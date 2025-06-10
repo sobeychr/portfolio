@@ -4,7 +4,7 @@ import { getRandomName } from '@utils/name';
 import { getRandomInt } from '@utils/number';
 import { getId } from '@utils/string';
 
-export const POST: APIRoute = () => {
+export const GET: APIRoute = () => {
   const avatars = [];
   for (let i = 0; i < getRandomInt(10, 50); i++) {
     const name = getRandomName();

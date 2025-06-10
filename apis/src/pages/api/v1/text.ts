@@ -15,5 +15,7 @@ export const GET: APIRoute = () => {
     });
   }
 
+  // const t = a.b;
+
   return quickJson(texts);
 };

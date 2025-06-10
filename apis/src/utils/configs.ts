@@ -1,3 +1,8 @@
+export const DELAY_DEFAULT = 0;
+export const DELAY_MIN = 0;
+export const DELAY_MAX = 2500;
+export const DELAY_NAME = 'd';
+
 export const PAGES = [
   { name: 'home', pathname: '/' },
   { name: 'admin', pathname: '/admin' },
