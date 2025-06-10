@@ -1,0 +1,10 @@
+@mixin quickIcon($img) {
+  aspect-ratio: 1;
+  background: var(--icon-color, #000);
+  content: '';
+  display: inline-block;
+  mask-image: url('/icons/' + $img);
+  mask-position: center center;
+  mask-size: cover;
+  width: var(--icon-width, 1em);
+}
