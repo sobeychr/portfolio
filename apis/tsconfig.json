@@ -4,11 +4,17 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "paths": {
+      "@classes/*": [
+        "src/classes/*"
+      ],
       "@components/*": [
         "src/components/*"
       ],
       "@layouts/*": [
         "src/layouts/*"
+      ],
+      "@middlewares/*": [
+        "src/middlewares/*"
       ],
       "@pages/*": [
         "src/pages/*"
