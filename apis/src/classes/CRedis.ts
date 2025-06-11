@@ -2,71 +2,84 @@
 import type { RedisClientExtensions } from '@redis/client/dist/lib/client';
 import { createClient } from 'redis';
 
+type OptionsType = {
+  expire?: number;
+};
+
 export class CRedis {
-  static MAX_LOGS = 45;
+  name: string;
 
-  _client: RedisClientExtensions | undefined;
+  _client: RedisClientExtensions;
+  _expire: number = 0;
 
-  async create(): Promise<boolean> {
-    if (!!this._client) {
-      return false;
-    }
+  constructor(name: string, options: OptionsType = {}) {
+    this.name = name;
 
-    const client = await createClient();
+    this._expire = options.expire || 0;
+
+    const client = createClient();
 
     client.on('end', () => console.log('[CRedis] ending'));
-
     client.on('error', (err: Error) => console.log('[CRedis] error', err));
-
     client.on('connect', () => console.log('[CRedis] connected'));
-
     client.on('ready', () => console.log('[CRedis] ready'));
-
     client.on('reconnecting', () => console.log('[CRedis] reconnecting'));
 
     client.connect();
     this._client = client;
 
-    console.log('[CRedis.create()] created instance');
-    return true;
+    Object.freeze(this);
   }
 
-  async delete(key: string): Promise<boolean> {
-    if (!this._client) {
-      console.log(`[CRedis.delete()] cannot delete "${key}" before instance creation`);
-      return false;
+  async clear() {
+
+  }
+
+  async get(field: string): Promise<null | string> {
+    return await this._client.hGet(this.name, field);
+  }
+
+  async getAll() {
+    return await this._client.hGetAll(this.name);
+  }
+
+  async getDetails() {
+    const values = await this.getAll();
+    /* values = { field1: "value1", field2: "value2", field3: "value3" }; */
+    const expires = await this.getExpires(Object.keys(values));
+    /* expies = [ timestampField1, timestampField2, timestampField3 ]; */
+
+    const parsed = Object.keys(values).reduce((acc, key, index) => ({
+      ...acc,
+      [key]: {
+        expire: expires[index],
+        value: acc[key],
+      },
+    }), values);
+    /* parsed = {
+        field1: { expire: timestampField1, value: "value1" },
+        field2: { expire: timestampField2, value: "value2" },
+        field2: { expire: timestampField3, value: "value3" },
+      }
+    */
+
+    return parsed;
+  }
+
+  async getExpires(fields: string[]): Promise<number[]> {
+    return await this._client.hExpireTime(this.name, fields);
+  }
+
+  async delete(field: string) {
+    await this._client.hDel(this.name, field);
+  }
+
+  async set(field: string, value: string, expire: number = 0) {
+    await this._client.hSet(this.name, field, value);
+
+    const exp = expire || this._expire || 0;
+    if (exp > 0) {
+      await this._client.hExpire(this.name, field, exp, 'LT');
     }
-
-    await this._client.DEL(key);
-    return true;
-  }
-
-  async get(key: string): Promise<null | string> {
-    if (!this._client) {
-      console.log(`[CRedis.get()] cannot get "${key}" before instance creation`);
-      return null;
-    }
-
-    const value = await this._client?.get(key);
-    const valueCut = value?.substring?.(0, Math.min(CRedis.MAX_LOGS, value.length));
-    console.log(`[CRedis.get()] searched "${key}", found [${typeof value}]`, valueCut || value);
-    return value;
-  }
-
-  isCreated(): boolean {
-    return !!this._client;
-  }
-
-  async set(key: string, value: string): Promise<boolean> {
-    if (!this._client) {
-      console.log(`[CRedis.set()] cannot set "${key}" before instance creation`);
-      return false;
-    }
-
-    const valueCut = value?.substring?.(0, Math.min(CRedis.MAX_LOGS, value.length));
-    console.log(`[CRedis.set()] setting "${key}", to`, valueCut || value);
-
-    await this._client?.set(key, value);
-    return true;
   }
 }

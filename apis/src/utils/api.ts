@@ -1,3 +1,11 @@
+export const cacheToResponse = (str: string): Response => {
+  const data = JSON.parse(str);
+  return new Response(data.text, {
+    headers: new Headers(data.headers),
+    status: data.status,
+  });
+};
+
 export const quickError = (error: Error): Response => {
   const str = JSON.stringify({
     code: 500,
@@ -32,5 +40,14 @@ export const quickJson = (content: object | object[] | string): Response => {
       'Content-Length': str.length,
       'Content-Type': 'application/json;charset=utf8',
     }),
+  });
+};
+
+export const responseToCache = async (response: Response): Promise<string> => {
+  const resp = response.clone();
+  return JSON.stringify({
+    headers: Object.fromEntries(resp.headers.entries()),
+    text: await resp.text(),
+    status: resp.status,
   });
 };

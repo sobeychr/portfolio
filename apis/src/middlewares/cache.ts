@@ -1,4 +1,8 @@
 import { defineMiddleware } from 'astro:middleware';
+
+export const cacheMiddleware = defineMiddleware((_context, next) => next());
+
+/*
 import { CRedis } from '@classes/CRedis';
 import { DELAY_DEFAULT, DELAY_MAX, DELAY_MIN, DELAY_NAME } from '@utils/configs';
 import { minMax } from '@utils/number';
@@ -46,3 +50,4 @@ export const cacheMiddleware = defineMiddleware(async (context, next) => {
 
   return response;
 });
+*/
