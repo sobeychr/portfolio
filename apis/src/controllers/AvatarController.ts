@@ -1,8 +1,9 @@
+import { CRedis } from '@classes/CRedis';
+import { DelayController } from '@controllers/DelayController';
 import { cacheToResponse, quickJson, responseToCache } from '@utils/api';
 import { getRandomName } from '@utils/name';
 import { getRandomInt } from '@utils/number';
 import { getId } from '@utils/string';
-import { CRedis } from '@classes/CRedis';
 
 export class AvatarController {
   private static _expire = 1800; // 30 mins
@@ -12,12 +13,14 @@ export class AvatarController {
     return await AvatarController._cache.getAll();
   }
 
-  static async getRandomAvatars() {
+  static async getRandomAvatars({ url }) {
     const prevCache = await AvatarController._cache.get('randomAvatar');
     if (prevCache) {
       const prevResponse = cacheToResponse(prevCache);
       return prevResponse;
     }
+
+    await DelayController.applyDelay((url as URL).searchParams);
 
     const avatars = [];
     for (let i = 0; i < getRandomInt(10, 50); i++) {

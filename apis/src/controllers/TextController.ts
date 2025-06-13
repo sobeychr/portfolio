@@ -1,8 +1,8 @@
+import { CRedis } from '@classes/CRedis';
 import { cacheToResponse, quickJson, responseToCache } from '@utils/api';
+import { DEFAULT } from '@utils/lorem';
 import { getRandomInt } from '@utils/number';
 import { getId, getText, getTitle } from '@utils/string';
-import { DEFAULT } from '@utils/lorem';
-import { CRedis } from '@classes/CRedis';
 
 export class TextController {
   private static _expire = 3600; // 1 hour

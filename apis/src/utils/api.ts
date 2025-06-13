@@ -47,7 +47,7 @@ export const responseToCache = async (response: Response): Promise<string> => {
   const resp = response.clone();
   return JSON.stringify({
     headers: Object.fromEntries(resp.headers.entries()),
-    text: await resp.text(),
     status: resp.status,
+    text: await resp.text(),
   });
 };

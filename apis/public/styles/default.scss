@@ -22,10 +22,22 @@ a {
 }
 
 button {
+  --color: var(--link-color);
+
+  background: var(--bg-color-dark);
+  border: 2px solid var(--color);
+  border-radius: var(--radius);
+  color: var(--color);
   cursor: pointer;
+  margin: 0.3em;
+  padding: 0.3em 0.5em;
 
   &:disabled {
     pointer-events: none;
+  }
+
+  &:hover {
+    --color: var(--link-color-hover);
   }
 }
 
@@ -44,8 +56,27 @@ h6 {
   padding: 0;
 }
 
-label[for] {
-  cursor: pointer;
+input:is([type='number'], [type='text']),
+textarea label[for] {
+  --color: var(--link-color);
+
+  background: var(--bg-color-dark);
+  border: 2px solid var(--color);
+  border-radius: var(--radius);
+  color: var(--color);
+  margin: 0.3em;
+  padding: 0.3em 0.5em;
+
+  &:disabled,
+  &[readonly] {
+    --color: var(--link-color-disabled);
+
+    font-style: italic;
+  }
+
+  &:hover:not(:disabled) {
+    --color: var(--link-color-hover);
+  }
 }
 
 main {
@@ -59,21 +90,6 @@ p {
   padding: 0;
 }
 
-section.widget {
+section {
   margin: 2em;
-
-  button {
-    --color: var(--link-color);
-
-    background: var(--bg-color-dark);
-    border: 2px solid var(--color);
-    border-radius: var(--radius);
-    color: var(--color);
-    margin: 0.3em;
-    padding: 0.3em 0.5em;
-
-    &:hover {
-      --color: var(--link-color-hover);
-    }
-  }
 }

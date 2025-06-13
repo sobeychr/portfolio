@@ -1,6 +1,6 @@
 // https://www.npmjs.com/package/redis
-import type { RedisClientExtensions } from '@redis/client/dist/lib/client';
 import { createClient } from 'redis';
+import type { RedisClientExtensions } from '@redis/client/dist/lib/client';
 
 type OptionsType = {
   expire?: number;
