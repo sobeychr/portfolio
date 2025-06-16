@@ -22,6 +22,7 @@ const CacheWidget = () => {
         const end = new Date();
         const startParsed = dateToTimeString(start);
         setLog(`deleted ${startParsed}, delay ${end.getTime() - start.getTime()}ms`);
+        setCache('');
       });
   };
 

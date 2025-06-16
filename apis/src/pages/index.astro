@@ -5,6 +5,22 @@ import Default from '@layouts/Default.astro';
 <Default>
   <main>
     <h1>Test-APIs - Home</h1>
-    <p>lorem ipsum</p>
+    <p>
+      Test-APIs is a short demo showcasing loading different API endpoints and caching their values.
+      This is allows an application to significantly speed up its loading time. Instead of caching
+      the entire web page, services are cached individually and therefore an isolated change does
+      not invalidate the entire page.
+    </p>
+
+    <code>
+      1. Web page calls services &gt; service has no pre-existing cache &gt; service computes the
+      response &gt; service returns the response
+      <br />
+      2. Web page calls services &gt; service find pre-existing cache &gt; service returns the cached
+      value
+      <br />
+      3. Service performs an operation changing its data &gt; service invalidates its cache &gt; next
+      call computes response (as #1)
+    </code>
   </main>
 </Default>
