@@ -1,0 +1,23 @@
+---
+import Default from '@layouts/Default.astro';
+import { AvatarWidget } from '@widgets/avatar';
+import { CacheWidget } from '@widgets/cache';
+import { TextWidget } from '@widgets/text';
+---
+
+<Default>
+  <main>
+    <header>
+      <h1>Test-APIs - Demo</h1>
+      <p>
+        Cache widget allows to load and delete the current caches. If no cache exist, the full
+        operation is performed. A mocked delay can be set to replicate a heavy process. Note that a
+        cached entry has no delay from the mock, as expected.
+      </p>
+    </header>
+
+    <CacheWidget client:only="solid-js" />
+    <AvatarWidget client:only="solid-js" />
+    <TextWidget client:only="solid-js" />
+  </main>
+</Default>

@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "paths": {
+      "@classes/*": [
+        "src/classes/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@controllers/*": [
+        "src/controllers/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@middlewares/*": [
+        "src/middlewares/*"
+      ],
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@widgets/*": [
+        "src/components/widgets/*"
+      ],
+    },
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ],
+    "strictNullChecks": true
+  },
+  "exclude": [
+    "dist",
+  ],
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+}
