@@ -1,6 +1,7 @@
 ---
 import Default from '@layouts/Default.astro';
 import { AvatarWidget } from '@widgets/avatar';
+import { TextWidget } from '@widgets/text';
 ---
 
 <Default>
@@ -9,5 +10,6 @@ import { AvatarWidget } from '@widgets/avatar';
     <p>lorem ipsum</p>
 
     <AvatarWidget client:only="solid-js" />
+    <TextWidget client:only="solid-js" />
   </main>
 </Default>

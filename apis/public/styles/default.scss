@@ -13,6 +13,7 @@ a {
 
   color: var(--color);
   text-decoration: none;
+  transition: color .2s linear;
 
   &:hover {
     --color: var(--link-color-hover);
@@ -31,6 +32,7 @@ button {
   cursor: pointer;
   margin: 0.3em;
   padding: 0.3em 0.5em;
+  transition: border .2s linear, color .2s linear;
 
   &:disabled {
     pointer-events: none;
@@ -58,7 +60,7 @@ h6 {
 
 input:is([type='number'], [type='text']),
 textarea label[for] {
-  --color: var(--link-color);
+  --color: var(--input-color);
 
   background: var(--bg-color-dark);
   border: 2px solid var(--color);
@@ -66,16 +68,17 @@ textarea label[for] {
   color: var(--color);
   margin: 0.3em;
   padding: 0.3em 0.5em;
+  transition: border .2s linear, color .2s linear;
 
   &:disabled,
   &[readonly] {
-    --color: var(--link-color-disabled);
+    --color: var(--input-color-disabled);
 
     font-style: italic;
   }
 
   &:hover:not(:disabled) {
-    --color: var(--link-color-hover);
+    --color: var(--input-color-hover);
   }
 }
 
@@ -91,5 +94,5 @@ p {
 }
 
 section {
-  margin: 2em;
+  margin: 1.5em;
 }
