@@ -1,6 +1,6 @@
 import { sequence } from 'astro:middleware';
-import { cacheMiddleware } from '@middlewares/cache';
+import { mainMiddleware } from '@middlewares/main';
 
 export const onRequest = sequence(
-  cacheMiddleware,
+  mainMiddleware,
 );

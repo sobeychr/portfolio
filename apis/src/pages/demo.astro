@@ -1,14 +1,18 @@
 ---
 import Default from '@layouts/Default.astro';
 import { AvatarWidget } from '@widgets/avatar';
+import { CacheWidget } from '@widgets/cache';
 import { TextWidget } from '@widgets/text';
 ---
 
 <Default>
   <main>
-    <h1>Test-APIs - Demo</h1>
-    <p>lorem ipsum</p>
+    <header>
+      <h1>Test-APIs - Demo</h1>
+      <p>lorem ipsum</p>
+    </header>
 
+    <CacheWidget client:only="solid-js" />
     <AvatarWidget client:only="solid-js" />
     <TextWidget client:only="solid-js" />
   </main>

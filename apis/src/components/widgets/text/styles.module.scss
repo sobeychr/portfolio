@@ -1,8 +1,8 @@
 .entry {
-  width: 100%;
-  padding: 0.8em;
   border-radius: 0.8em;
+  padding: 0.8em;
   transition: background .2s linear;
+  width: 100%;
 
   &:hover {
     background: var(--bg-color-dark);

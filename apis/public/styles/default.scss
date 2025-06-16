@@ -83,9 +83,15 @@ textarea label[for] {
 }
 
 main {
+  display: flex;
+  flex-flow: row wrap;
   margin: 1em auto;
-  max-width: 750px;
-  padding: 0 1.5em;
+  max-width: 1300px;
+  padding: 0 1.5em 0 7em;
+
+  &>header {
+    width: 100%;
+  }
 }
 
 p {
@@ -95,4 +101,5 @@ p {
 
 section {
   margin: 1.5em;
+  width: calc(50% - 3em);
 }

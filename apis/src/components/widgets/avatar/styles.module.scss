@@ -1,12 +1,12 @@
 .entry {
   aspect-ratio: 1;
+  border-radius: 0.8em;
   display: flex;
   flex-flow: column nowrap;
-  text-align: center;
-  width: 100px;
   padding: 0.6em;
-  border-radius: 0.8em;
+  text-align: center;
   transition: background .2s linear;
+  width: 100px;
 
   &:hover {
     background: var(--bg-color-dark);

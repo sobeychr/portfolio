@@ -36,6 +36,8 @@ export default defineConfig({
   trailingSlash: 'never',
   vite: {
     define: {
+      'import.meta.env.SERVER_HOST': JSON.stringify(SERVER_HOST),
+      'import.meta.env.SERVER_PORT': JSON.stringify(SERVER_PORT),
       'import.meta.env.VERSION': JSON.stringify(version),
     },
     // SCSS aliases

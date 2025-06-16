@@ -10,7 +10,15 @@ export class AvatarController {
   private static _cache = new CRedis('avatar', { expire: AvatarController._expire });
 
   static async cacheGetAll() {
-    return await AvatarController._cache.getAll();
+    return await AvatarController._cache.getDetails();
+  }
+
+  static async delete(field: string) {
+    return await AvatarController._cache.delete(field);
+  }
+
+  static async deleteAll() {
+    return await AvatarController._cache.deleteAll();
   }
 
   static async getRandomAvatars({ url }) {

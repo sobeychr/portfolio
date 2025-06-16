@@ -31,8 +31,16 @@ export class CRedis {
     Object.freeze(this);
   }
 
-  async clear() {
+  async delete(field: string) {
+    await this._client.hDel(this.name, field);
+  }
 
+  async deleteAll() {
+    const all = await this.getAll();
+    const keys = Object.keys(all);
+    if (keys.length > 0) {
+      await this.delete(keys);
+    }
   }
 
   async get(field: string): Promise<null | string> {
@@ -46,6 +54,11 @@ export class CRedis {
   async getDetails() {
     const values = await this.getAll();
     /* values = { field1: "value1", field2: "value2", field3: "value3" }; */
+
+    if (Object.keys(values).length == 0) {
+      return {};
+    }
+
     const expires = await this.getExpires(Object.keys(values));
     /* expies = [ timestampField1, timestampField2, timestampField3 ]; */
 
@@ -68,10 +81,6 @@ export class CRedis {
 
   async getExpires(fields: string[]): Promise<number[]> {
     return await this._client.hExpireTime(this.name, fields);
-  }
-
-  async delete(field: string) {
-    await this._client.hDel(this.name, field);
   }
 
   async set(field: string, value: string, expire: number = 0) {
