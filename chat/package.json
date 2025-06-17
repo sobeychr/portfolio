@@ -4,6 +4,7 @@
   "description": "Demo chat system for portfolio purpose",
   "license": "ISC",
   "author": "",
+  "type": "module",
   "scripts": {
     "dev": "vite dev",
     "devServer": "nodemon -L --env-file=.env src/index.js --config nodemon.config.json",
@@ -20,6 +21,7 @@
     "vite": "6.3.5"
   },
   "devDependencies": {
+    "@types/react": "19.1.8",
     "@typescript-eslint/parser": "8.34.1",
     "eslint": "9.29.0",
     "eslint-plugin-simple-import-sort": "12.1.1",
