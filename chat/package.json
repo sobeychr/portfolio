@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "devServer": "nodemon -L --env-file=.env src/index.js --config nodemon.config.json",
+    "devServer": "nodemon -L --env-file=.env src/server/index.js --config nodemon.config.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "stylelint": "stylelint **/*.{css,scss}",
