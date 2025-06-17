@@ -1,1 +1,7 @@
-export const Main = () => <h1>React</h1>;
+import { Login } from '@components/login';
+
+export const Main = () => {
+  return <main>
+    <Login />
+  </main>;
+};

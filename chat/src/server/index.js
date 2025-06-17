@@ -17,12 +17,14 @@ const createServer = async () => {
     appType: 'custom',
   });
 
+  app.use(express.json());
+
   app.use(vite.middlewares);
 
-  app.use('/test', async (_req, res) => {
-    console.log('test request');
+  app.post('/api/v1/auth', (req, res) => {
+    console.log('auth', req.body);
 
-    res.status(200).send('test').end();
+    res.status(200).send('{"mock":"test"}').end();
   });
 
   app.use('/', async (_req, res) => {
@@ -40,7 +42,7 @@ const createServer = async () => {
   });
 
   app.listen(SERVER_PORT, SERVER_HOST, () => {
-    console.log(`started ${SERVER_HOST}:${SERVER_PORT}`);
+    console.log(`started chat app - ${SERVER_HOST}:${SERVER_PORT}`);
   });
 };
 

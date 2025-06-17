@@ -4,8 +4,14 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "paths": {
+      "@components/*": [
+        "src/react/components/*"
+      ],
       "@core/*": [
         "src/react/core/*"
+      ],
+      "@utils/*": [
+        "src/react/utils/*"
       ]
     },
     "strictNullChecks": true

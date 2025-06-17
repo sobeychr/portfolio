@@ -48,6 +48,16 @@ code {
   padding: 0.3em 0.5em;
 }
 
+dialog {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 1em;
+
+  &::backdrop {
+    background: rgb(0, 0, 0, 0.5);
+  }
+}
+
 h1,
 h2,
 h3,
@@ -58,7 +68,11 @@ h6 {
   padding: 0;
 }
 
-input:is([type='number'], [type='text']),
+label[for] {
+  cursor: pointer;
+}
+
+input:is([type='number'], [type='password'], [type='text']),
 textarea label[for] {
   --color: var(--input-color);
 
@@ -69,6 +83,7 @@ textarea label[for] {
   margin: 0.3em;
   padding: 0.3em 0.5em;
   transition: border .2s linear, color .2s linear;
+  outline: none;
 
   &:disabled,
   &[readonly] {
@@ -77,29 +92,16 @@ textarea label[for] {
     font-style: italic;
   }
 
-  &:hover:not(:disabled) {
-    --color: var(--input-color-hover);
+  &:focus {
+    --color: var(--input-color-focus);
   }
-}
 
-main {
-  display: flex;
-  flex-flow: row wrap;
-  margin: 1em auto;
-  max-width: 1300px;
-  padding: 0 1.5em 0 7em;
-
-  &>header {
-    width: 100%;
+  &:hover:not(:disabled, :focus) {
+    --color: var(--input-color-hover);
   }
 }
 
 p {
   margin: 0 0 0.5em;
   padding: 0;
-}
-
-section {
-  margin: 1.5em;
-  width: calc(50% - 3em);
 }
