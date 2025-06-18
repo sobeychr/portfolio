@@ -1,11 +1,13 @@
 import type { FormEvent } from 'react';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { UserContext } from '@context/user';
 import { baseRequest, formRequest } from '@utils/request';
 import styles from './styles.module.scss';
 
 export const Login = () => {
   const dialogRef = useRef(null);
   const formRef = useRef(null);
+  const user = useContext(UserContext);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -14,8 +16,12 @@ export const Login = () => {
       form: formRef?.current,
     })
       .then(resp => {
-        if (!!resp.loggedIn) {
+        const { loggedIn, username } = resp;
+
+        if (!!loggedIn && !!username) {
           dialogRef?.current?.close();
+          user.setIsLoggedIn(true);
+          user.setUsername(username);
         }
       });
   };
@@ -27,7 +33,13 @@ export const Login = () => {
         url: '/api/v1/reset',
       })
         .then(resp => {
-          if (!resp.loggedIn) {
+          const { loggedIn, username } = resp;
+
+          if (!!loggedIn && !!username) {
+            dialogRef?.current?.close();
+            user.setIsLoggedIn(true);
+            user.setUsername(username);
+          } else {
             dialogRef?.current?.showModal();
           }
         });

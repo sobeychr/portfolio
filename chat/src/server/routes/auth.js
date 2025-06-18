@@ -28,6 +28,7 @@ export const authRoutes = app => {
           expires,
           loggedIn: true,
           token: newToken,
+          username,
         })).end();
 
       return false;
@@ -56,6 +57,7 @@ export const authRoutes = app => {
             expires,
             loggedIn: true,
             token: newToken,
+            username,
           })).end();
         return false;
       }

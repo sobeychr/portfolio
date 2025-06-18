@@ -1,3 +1,3 @@
 (function (win) {
-  win.__CHAT.mount('localhost');
+  win.__CHAT.mount('root');
 })(window);

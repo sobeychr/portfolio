@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { Main } from '@core/Main';
+import { App } from '@core/App';
 
 (function (win, doc) {
   const roots = new Map();
@@ -12,10 +12,10 @@ import { Main } from '@core/Main';
     } else {
       const prevRoot = roots.get(nodeId);
       if (prevRoot) {
-        prevRoot.render(<Main {...params} />);
+        prevRoot.render(<App {...params} />);
       } else {
         const root = createRoot(node);
-        root.render(<Main {...params} />);
+        root.render(<App {...params} />);
         roots.set(nodeId, root);
       }
     }

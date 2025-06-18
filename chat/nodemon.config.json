@@ -1,7 +1,7 @@
 {
   "delay": 750,
   "watch": [
-    "src"
+    "src/server"
   ],
   "verbose": true
 }
