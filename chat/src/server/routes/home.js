@@ -1,8 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { PATH_ROOT } from './../configs.js';
 
 export const homeRoutes = (app, options = {}) => {
-  const { PATH_ROOT, vite } = options;
+  const { vite } = options;
 
   app.get('/', async (_req, res) => {
     const template = readFileSync(

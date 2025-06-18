@@ -3,6 +3,18 @@ import express from 'express';
 import responseTime from 'response-time';
 import timeout from 'connect-timeout';
 import cookieParser from 'cookie-parser';
+import { IS_DEV, SERVER_HOST, SERVER_PORT } from './configs.js';
+
+const STATUS_CHALK = [
+  { min: 200, max: 299, method: 'green' },
+  { min: 300, max: 399, method: 'yellow' },
+  { min: 400, max: 499, method: 'red' },
+  { min: 500, max: 599, method: 'bgRed' },
+];
+const statusToChalk = statusCode => {
+  const method = STATUS_CHALK.find(({ min, max }) => min <= statusCode && statusCode <= max)?.method || 'white';
+  return chalk[method](statusCode);
+};
 
 export const appMiddleware = (app, options = {}) => {
   const { vite } = options;
@@ -13,7 +25,7 @@ export const appMiddleware = (app, options = {}) => {
 
   app.use(vite.middlewares);
 
-  app.use(responseTime((req, _res, time) => {
+  app.use(responseTime((req, res, time) => {
     const { method, originalUrl } = req;
     const date = new Date();
     const timeStr = [
@@ -21,14 +33,36 @@ export const appMiddleware = (app, options = {}) => {
       '.',
       date.getMilliseconds().toString().padStart(3, '0'),
     ].join('');
+    const statusCode = res.statusCode;
 
     console.log(
       '>',
       chalk.cyan(timeStr),
       chalk.white(`${time.toFixed(3)}ms`),
+      statusToChalk(statusCode),
       chalk.magenta(`[${method}] ${originalUrl}`),
     );
   }));
 
   app.use(timeout('5s'));
+
+  app.use((req, res, next) => {
+    const path = req.path;
+    const isApi = path.startsWith('/api/');
+
+    if (isApi) {
+      const referer = req.headers?.referer || '';
+      const expectedRef = `${SERVER_HOST}:${SERVER_PORT}`;
+
+      if (!IS_DEV && !referer.includes(expectedRef)) {
+        res.status(401).json({
+          error: 'unauthorized request',
+        }).end();
+
+        return false;
+      }
+    }
+
+    next();
+  });
 };

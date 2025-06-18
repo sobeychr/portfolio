@@ -1,16 +1,10 @@
 import express from 'express';
-import { resolve } from 'node:path';
 import { createServer as createViteServer } from 'vite';
+import { SERVER_HOST, SERVER_PORT } from './configs.js';
 import { appMiddleware } from './middleware.js';
+import { errorMiddleware } from './error.js';
 import { authRoutes } from './routes/auth.js';
 import { homeRoutes } from './routes/home.js';
-
-const {
-  SERVER_HOST = 'localhost',
-  SERVER_PORT = 3000,
-} = process?.env || {};
-
-const PATH_ROOT = resolve(process.cwd(), '.').concat('/');
 
 const createServer = async () => {
   const app = express();
@@ -19,14 +13,12 @@ const createServer = async () => {
     appType: 'custom',
   });
 
-  const options = {
-    PATH_ROOT,
-    vite,
-  };
+  const options = { vite };
 
   appMiddleware(app, options);
   authRoutes(app);
   homeRoutes(app, options);
+  errorMiddleware(app);
 
   app.listen(SERVER_PORT, SERVER_HOST, () => {
     console.log(`started chat app - ${SERVER_HOST}:${SERVER_PORT}`);

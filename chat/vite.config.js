@@ -78,7 +78,6 @@ const configs = defineConfig(({ mode }) => {
     },
     outdir: 'dist/',
     server: {
-      // middlewareMode: true,
       host: SERVER_HOST,
       port: parseInt(SERVER_PORT, 10),
     },
