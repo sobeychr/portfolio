@@ -1,16 +1,16 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import { SERVER_HOST, SERVER_PORT } from './configs.js';
-import { appMiddleware } from './middleware.js';
 import { errorMiddleware } from './error.js';
+import { appMiddleware } from './middleware.js';
 import { authRoutes } from './routes/auth.js';
 import { homeRoutes } from './routes/home.js';
 
 const createServer = async () => {
   const app = express();
   const vite = await createViteServer({
-    server: { middlewareMode: true },
     appType: 'custom',
+    server: { middlewareMode: true },
   });
 
   const options = { vite };

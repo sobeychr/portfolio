@@ -14,8 +14,8 @@ export const homeRoutes = (app, options = {}) => {
     const html = await vite.transformIndexHtml('/', template);
 
     res.status(200).set({
-      'Content-Type': 'text/html; charset=utf-8',
       'Content-Length': html.toString().length,
+      'Content-Type': 'text/html; charset=utf-8',
     }).send(html).end();
   });
 };

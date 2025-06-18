@@ -24,7 +24,6 @@ export const errorMiddleware = (app) => {
     const stack = err.stack.split(/\n\s+/);
 
     res.status(statusCode).json({
-      error: 'unauthorized request',
       details: {
         cause: err.cause,
         columnNumber: err.columnNumber,
@@ -34,6 +33,7 @@ export const errorMiddleware = (app) => {
         name: err.name,
         stack: stack,
       },
+      error: 'unauthorized request',
       request: {
         method,
         originalUrl,

@@ -50,11 +50,11 @@ code {
 
 dialog {
   background: var(--bg-color);
-  color: var(--text-color);
   border-radius: 1em;
+  color: var(--text-color);
 
   &::backdrop {
-    background: rgb(0, 0, 0, 0.5);
+    background: rgb(0 0 0 / 50%);
   }
 }
 
@@ -81,9 +81,9 @@ textarea label[for] {
   border-radius: var(--radius);
   color: var(--color);
   margin: 0.3em;
+  outline: none;
   padding: 0.3em 0.5em;
   transition: border .2s linear, color .2s linear;
-  outline: none;
 
   &:disabled,
   &[readonly] {

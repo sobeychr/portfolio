@@ -1,16 +1,18 @@
 import chalk from 'chalk';
-import express from 'express';
-import responseTime from 'response-time';
 import timeout from 'connect-timeout';
 import cookieParser from 'cookie-parser';
+import express from 'express';
+import responseTime from 'response-time';
 import { IS_DEV, SERVER_HOST, SERVER_PORT } from './configs.js';
 
+/* eslint-disable sort-keys */
 const STATUS_CHALK = [
   { min: 200, max: 299, method: 'green' },
   { min: 300, max: 399, method: 'yellow' },
   { min: 400, max: 499, method: 'red' },
   { min: 500, max: 599, method: 'bgRed' },
 ];
+/* eslint-enable sort-keys */
 const statusToChalk = statusCode => {
   const method = STATUS_CHALK.find(({ min, max }) => min <= statusCode && statusCode <= max)?.method || 'white';
   return chalk[method](statusCode);

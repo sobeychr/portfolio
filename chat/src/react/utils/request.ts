@@ -24,10 +24,10 @@ export const baseRequest = async ({
 
   return fetch(request, {
     body: JSON.stringify(postData),
-    method: method || (hasPost && 'post') || 'get',
     headers: new Headers({
       'Content-Type': `${contentType};charset=utf-8`,
     }),
+    method: method || (hasPost && 'post') || 'get',
   })
     .then(resp => asJson && resp.json() || resp.text())
     .catch(err => {
