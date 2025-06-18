@@ -1,7 +1,9 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import express from 'express';
+import { resolve } from 'node:path';
 import { createServer as createViteServer } from 'vite';
+import { appMiddleware } from './middleware.js';
+import { authRoutes } from './routes/auth.js';
+import { homeRoutes } from './routes/home.js';
 
 const {
   SERVER_HOST = 'localhost',
@@ -17,29 +19,14 @@ const createServer = async () => {
     appType: 'custom',
   });
 
-  app.use(express.json());
+  const options = {
+    PATH_ROOT,
+    vite,
+  };
 
-  app.use(vite.middlewares);
-
-  app.post('/api/v1/auth', (req, res) => {
-    console.log('auth', req.body);
-
-    res.status(200).send('{"mock":"test"}').end();
-  });
-
-  app.use('/', async (_req, res) => {
-    const template = readFileSync(
-      resolve(PATH_ROOT, 'index.html'),
-      'utf-8',
-    );
-
-    const html = await vite.transformIndexHtml('/', template);
-
-    res.status(200).set({
-      'Content-Type': 'text/html; charset=utf-8',
-      'Content-Length': html.toString().length,
-    }).send(html).end();
-  });
+  appMiddleware(app, options);
+  authRoutes(app);
+  homeRoutes(app, options);
 
   app.listen(SERVER_PORT, SERVER_HOST, () => {
     console.log(`started chat app - ${SERVER_HOST}:${SERVER_PORT}`);

@@ -1,0 +1,20 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+export const homeRoutes = (app, options = {}) => {
+  const { PATH_ROOT, vite } = options;
+
+  app.get('/', async (_req, res) => {
+    const template = readFileSync(
+      resolve(PATH_ROOT, 'index.html'),
+      'utf-8',
+    );
+
+    const html = await vite.transformIndexHtml('/', template);
+
+    res.status(200).set({
+      'Content-Type': 'text/html; charset=utf-8',
+      'Content-Length': html.toString().length,
+    }).send(html).end();
+  });
+};
