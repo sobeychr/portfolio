@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react';
 import { useEffect, useRef } from 'react';
-import { formRequest } from '@utils/request';
+import { baseRequest, formRequest } from '@utils/request';
 import styles from './styles.module.scss';
 
 export const Login = () => {
@@ -10,16 +10,34 @@ export const Login = () => {
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const request = await formRequest(formRef?.current as HTMLFormElement);
-    console.log('req', request);
+    formRequest({
+      form: formRef?.current,
+    })
+      .then(resp => {
+        if (!!resp.loggedIn) {
+          dialogRef?.current?.close();
+        }
+      });
   };
 
   useEffect(() => {
-    dialogRef?.current?.showModal();
+    const resetLogin = async () => {
+      baseRequest({
+        method: 'post',
+        url: '/api/v1/reset',
+      })
+        .then(resp => {
+          if (!resp.loggedIn) {
+            dialogRef?.current?.showModal();
+          }
+        });
+    };
+
+    resetLogin();
   }, []);
 
   return <dialog className={styles.dialog} ref={dialogRef}>
-    <form action='/api/v1/auth' method='post' onSubmit={onSubmit} ref={formRef}>
+    <form action='/api/v1/login' method='post' onSubmit={onSubmit} ref={formRef}>
       <p>
         <label htmlFor='username'>Username:</label>
         <input type='text' autoFocus id='username' name='username' />

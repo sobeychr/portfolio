@@ -1,20 +1,30 @@
-export const formRequest = async (form: HTMLFormElement, asJson = true): Promise<object | string> => {
-  const url = form.getAttribute('action') as string;
-  const method = form.getAttribute('method') as 'get' | 'post';
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData.entries());
+type BaseRequestParam = {
+  asJson?: boolean;
+  getData?: object;
+  method?: 'get' | 'post' | undefined;
+  origin?: string;
+  postData?: object;
+  url: string;
+};
 
-  const request = new URL(url, window.location.origin);
-  if (method === 'get') {
-    Object.keys(data).forEach(key => request.searchParams.append(key, data[key]));
-  }
-  const body = method === 'get' ? null : JSON.stringify(data);
+export const baseRequest = async ({
+  asJson = true,
+  getData = {},
+  method,
+  origin = '',
+  postData = {},
+  url,
+}: BaseRequestParam): Promise<object | string> => {
+  const request = new URL(url, origin || window.location.origin);
+
+  Object.keys(getData).forEach(key => request.searchParams.append(key, getData[key]));
+  const hasPost = Object.keys(postData).length > 0;
 
   const contentType = asJson ? 'application/json' : 'text/plain';
 
-  return fetch(url, {
-    body,
-    method,
+  return fetch(request, {
+    body: JSON.stringify(postData),
+    method: method || (hasPost && 'post') || 'get',
     headers: new Headers({
       'Content-Type': `${contentType};charset=utf-8`,
     }),
@@ -23,4 +33,32 @@ export const formRequest = async (form: HTMLFormElement, asJson = true): Promise
     .catch(err => {
       console.error('[formRequest()] error', err);
     });
+};
+
+type FormRequestParam = {
+  asJson?: boolean;
+  form: HTMLFormElement;
+  origin?: string;
+};
+
+export const formRequest = async ({
+  asJson = true,
+  form,
+  origin = '',
+}: FormRequestParam): Promise<object | string> => {
+  const url = form.getAttribute('action');
+  const method = form.getAttribute('method');
+
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  const isGet = method === 'get';
+
+  return baseRequest({
+    asJson,
+    getData: isGet ? data : {},
+    method,
+    origin,
+    postData: isGet ? {} : data,
+    url,
+  });
 };
