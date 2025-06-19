@@ -1,0 +1,41 @@
+@use '@styles/helpers.scss' as helpers;
+
+.header {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.link {
+  --link-background: var(--bg-color);
+  --icon-color: var(--color);
+  --icon-height: 1.7rem;
+
+  color: transparent;
+  font-size: 0;
+  padding: 0.8rem;
+  background-color: var(--link-background);
+  border-radius: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: .2s linear;
+  transition-property: background-color, border-radius;
+
+  @include helpers.beforeIcon();
+
+  &:hover {
+    --icon-color: var(--link-background);
+    background-color: var(--color);
+    border-radius: 0.5rem;
+  }
+}
+
+.wrapper {
+  height: 100vh;
+  left: 0;
+  overflow: hidden auto;
+  position: absolute;
+  top: 0;
+  width: 5vw;
+  padding: 1em;
+  background-color: var(--bg-color-dark0);
+}

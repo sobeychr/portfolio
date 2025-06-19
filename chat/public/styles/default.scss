@@ -25,7 +25,7 @@ a {
 button {
   --color: var(--link-color);
 
-  background: var(--bg-color-dark);
+  background: var(--bg-color-dark0);
   border: 2px solid var(--color);
   border-radius: var(--radius);
   color: var(--color);
@@ -44,7 +44,7 @@ button {
 }
 
 code {
-  background: var(--bg-color-dark);
+  background: var(--bg-color-dark1);
   padding: 0.3em 0.5em;
 }
 
@@ -76,7 +76,7 @@ input:is([type='number'], [type='password'], [type='text']),
 textarea label[for] {
   --color: var(--input-color);
 
-  background: var(--bg-color-dark);
+  background: var(--bg-color-dark0);
   border: 2px solid var(--color);
   border-radius: var(--radius);
   color: var(--color);

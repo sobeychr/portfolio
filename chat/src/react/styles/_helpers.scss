@@ -1,0 +1,27 @@
+@mixin quickIcon($img: null) {
+  aspect-ratio: 1;
+  background: var(--icon-color, #000);
+  display: var(--icon-display, inline-block);
+  height: var(--icon-height, 1em);
+  mask: no-repeat top left;
+  mask-size: cover;
+
+  @if $img {
+    mask-image: url('/icons/' + $img);
+  }
+
+  @else {
+    mask-image: var(--icon-image);
+  }
+}
+
+@mixin beforeIcon($img: null) {
+  align-items: center;
+  display: flex;
+
+  &::before {
+    content: '';
+
+    @include quickIcon($img);
+  }
+}
