@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react';
 import { useContext, useEffect, useRef } from 'react';
 import { UserContext } from '@context/user';
+import { TextInput } from '@components/input/TextInput';
 import { baseRequest, formRequest } from '@utils/request';
 import styles from './styles.module.scss';
 
@@ -52,7 +53,7 @@ export const Login = () => {
     <form action='/api/v1/login' method='post' onSubmit={onSubmit} ref={formRef}>
       <p>
         <label htmlFor='username'>Username:</label>
-        <input type='text' autoFocus id='username' name='username' />
+        <TextInput autoFocus id='username' />
       </p>
       <p>
         <label>Password:</label>
