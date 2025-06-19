@@ -1,4 +1,4 @@
-import { AUTH_COOKIE, AUTH_POST, DURATION_WEEK } from '../configs.js';
+import { AUTH_COOKIE, AUTH_POST, DURATION_WEEK } from './../configs.js';
 
 export const authRoutes = app => {
   const getExpires = () => Math.floor(Date.now() * .001) + DURATION_WEEK;

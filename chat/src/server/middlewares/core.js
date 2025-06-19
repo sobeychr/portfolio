@@ -3,7 +3,7 @@ import timeout from 'connect-timeout';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import responseTime from 'response-time';
-import { IS_DEV, SERVER_HOST, SERVER_PORT } from './configs.js';
+import { IS_API_DEV, IS_DEV, SERVER_HOST, SERVER_PORT, SERVER_TIMEOUT } from './../configs.js';
 
 /* eslint-disable sort-keys */
 const STATUS_CHALK = [
@@ -18,7 +18,7 @@ const statusToChalk = statusCode => {
   return chalk[method](statusCode);
 };
 
-export const appMiddleware = (app, options = {}) => {
+export const coreMiddleware = (app, options = {}) => {
   const { vite } = options;
 
   app.use(cookieParser());
@@ -46,7 +46,7 @@ export const appMiddleware = (app, options = {}) => {
     );
   }));
 
-  app.use(timeout('5s'));
+  app.use(timeout(SERVER_TIMEOUT));
 
   app.use((req, res, next) => {
     const path = req.path;
@@ -55,8 +55,9 @@ export const appMiddleware = (app, options = {}) => {
     if (isApi) {
       const referer = req.headers?.referer || '';
       const expectedRef = `${SERVER_HOST}:${SERVER_PORT}`;
+      const isAllowDev = IS_API_DEV && !!IS_DEV;
 
-      if (!IS_DEV && !referer.includes(expectedRef)) {
+      if (!isAllowDev && !referer.includes(expectedRef)) {
         res.status(401).json({
           error: 'unauthorized request',
         }).end();
