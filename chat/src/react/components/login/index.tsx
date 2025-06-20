@@ -1,7 +1,9 @@
 import type { FormEvent } from 'react';
 import { useContext, useEffect, useRef } from 'react';
-import { UserContext } from '@context/user';
 import { TextInput } from '@components/input/TextInput';
+import { UserContext } from '@context/user';
+import { AUTH_COOKIE, AUTH_POST } from '@utils/configs';
+import { getDocumentCookie } from '@utils/cookie';
 import { baseRequest, formRequest } from '@utils/request';
 import styles from './styles.module.scss';
 
@@ -28,9 +30,12 @@ export const Login = () => {
   };
 
   useEffect(() => {
+    const token = getDocumentCookie(AUTH_COOKIE);
+
     const resetLogin = async () => {
       baseRequest({
         method: 'post',
+        postData: { token },
         url: '/api/v1/reset',
       })
         .then(resp => {
@@ -43,17 +48,24 @@ export const Login = () => {
           } else {
             dialogRef?.current?.showModal();
           }
+        })
+        .catch(() => {
+          dialogRef?.current?.showModal();
         });
     };
 
-    resetLogin();
+    if (!!token) {
+      resetLogin();
+    } else {
+      dialogRef?.current?.showModal();
+    }
   }, []);
 
   return <dialog className={styles.dialog} ref={dialogRef}>
     <form action='/api/v1/login' method='post' onSubmit={onSubmit} ref={formRef}>
       <p>
-        <label htmlFor='username'>Username:</label>
-        <TextInput autoFocus id='username' />
+        <label htmlFor={AUTH_POST}>Username:</label>
+        <TextInput autoFocus id={AUTH_POST} />
       </p>
       <p>
         <label>Password:</label>

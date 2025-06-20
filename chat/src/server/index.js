@@ -1,8 +1,8 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import { SERVER_HOST, SERVER_PORT } from './configs.js';
-import { errorMiddleware } from './middlewares/error.js';
 import { coreMiddleware } from './middlewares/core.js';
+import { errorMiddleware } from './middlewares/error.js';
 import { authRoutes } from './routes/auth.js';
 import { homeRoutes } from './routes/home.js';
 

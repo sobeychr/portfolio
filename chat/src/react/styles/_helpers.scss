@@ -8,9 +8,7 @@
 
   @if $img {
     mask-image: url('/icons/' + $img);
-  }
-
-  @else {
+  } @else {
     mask-image: var(--icon-image);
   }
 }

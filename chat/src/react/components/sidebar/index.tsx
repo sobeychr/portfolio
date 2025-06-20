@@ -2,23 +2,23 @@ import { useMemo } from 'react';
 import styles from './styles.module.scss';
 
 const LINKS = [
-  { color: '#f00', icon: 'bank' },
-  { color: '#0f0', icon: 'building' },
-  { color: '#4040ff', icon: 'car-side' },
-  { color: '#ff0', icon: 'home' },
-  { color: '#f0f', icon: 'plane-alt' },
-  { color: '#0ff', icon: 'rocket-lunch' },
-  { color: '#f00', icon: 'truck-side' },
+  { color: '#f00', icon: 'bank', name: 'Chat 0' },
+  { color: '#0f0', icon: 'building', name: 'Chat 1' },
+  { color: '#4040ff', icon: 'car-side', name: 'Chat 2' },
+  { color: '#ff0', icon: 'home', name: 'Chat 3' },
+  { color: '#f0f', icon: 'plane-alt', name: 'Chat 4' },
+  { color: '#0ff', icon: 'rocket-lunch', name: 'Chat 5' },
+  { color: '#f00', icon: 'truck-side', name: 'Chat 6' },
 ];
 
-const Link = ({ color, icon, index }) => {
+const Link = ({ color, icon, index, name }) => {
   const style = {
     '--color': color,
     '--icon-image': `url(/icons/${icon}.svg)`,
   };
 
   return <a className={styles.link} href={`#chat-${index}`} style={style}>
-    Chat &#35;{index}
+    <span>{name}</span>
   </a>;
 };
 

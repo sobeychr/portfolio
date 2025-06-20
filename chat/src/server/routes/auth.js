@@ -1,11 +1,12 @@
-import { AUTH_COOKIE, AUTH_POST, DURATION_WEEK } from './../configs.js';
+import { AUTH_COOKIE, AUTH_POST, DURATION_DAY, DURATION_WEEK } from './../configs.js';
+import { decodeToken, getCookieHeader, getToken } from './../utils.js';
 
 export const authRoutes = app => {
   const getExpires = () => Math.floor(Date.now() * .001) + DURATION_WEEK;
 
   const unauthResponse = res => res
     .status(401)
-    .append('Set-Cookie', `${AUTH_COOKIE}=; Path=/; Max-Age=-1`)
+    .append(...getCookieHeader(AUTH_COOKIE, '', -1))
     .send(JSON.stringify({
       loggedIn: false,
     })).end();
@@ -15,15 +16,12 @@ export const authRoutes = app => {
 
     if (username) {
       const expires = getExpires();
-
-      const header = btoa(JSON.stringify({ alg: 'mocked', typ: 'JWT' }));
-      const payload = btoa(JSON.stringify({ expires, username }));
-      const signature = btoa('some-mocked-signature');
-      const newToken = [header, payload, signature].join('.').replaceAll('=', '').replaceAll('%3D', '');
+      const newToken = getToken({ expires, username });
+      const cookieHeader = getCookieHeader(AUTH_COOKIE, newToken, DURATION_WEEK);
 
       res
         .status(200)
-        .append('Set-Cookie', `${AUTH_COOKIE}=${newToken}; Path=/; Max-Age=${DURATION_WEEK}`)
+        .append(...cookieHeader)
         .send(JSON.stringify({
           expires,
           loggedIn: true,
@@ -38,25 +36,42 @@ export const authRoutes = app => {
   });
 
   app.post('/api/v1/reset', async (req, res) => {
-    const token = req.cookies?.[AUTH_COOKIE] || ''; // from COOKIE
+    const tokenCookie = req.cookies?.[AUTH_COOKIE] || ''; // from COOKIE
+    const tokenPost = req.body?.[AUTH_COOKIE] || ''; // from POST
+    const token = tokenPost || tokenCookie;
 
     if (token) {
-      const [header = '', payload = '', signature = ''] = token.split('.');
-      const content = JSON.parse(atob(payload) || '{}') || {};
-      const { expires = 0, username = '' } = content;
+      const { expires = 0, username = '' } = decodeToken(token);
+      const diff = expires - Math.floor(Date.now() * 0.001);
+      const isValid = diff > 0 && !!username;
 
-      if (expires >= Date.now() * .001 && !!username) {
-        const newExpires = getExpires();
-        const newPayload = btoa(JSON.stringify({ expires: newExpires, username }));
-        const newToken = [header, newPayload, signature].join('.').replaceAll('=', '').replaceAll('%3D', '');
+      if (isValid) {
 
+        const isNeedRefresh = diff < DURATION_DAY;
+        if (isNeedRefresh) {
+          const newExpires = getExpires();
+          const newToken = getToken({ expires: newExpires, username });
+          const cookieHeader = getCookieHeader(AUTH_COOKIE, newToken, DURATION_WEEK);
+
+          res
+            .status(200)
+            .append(...cookieHeader)
+            .send(JSON.stringify({
+              expires,
+              loggedIn: true,
+              token: newToken,
+              username,
+            })).end();
+          return false;
+        }
+
+        // regular valid
         res
           .status(200)
-          .append('Set-Cookie', `${AUTH_COOKIE}=${newToken}; Path=/; Max-Age=${DURATION_WEEK}`)
           .send(JSON.stringify({
             expires,
             loggedIn: true,
-            token: newToken,
+            token,
             username,
           })).end();
         return false;

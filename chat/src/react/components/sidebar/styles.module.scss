@@ -10,32 +10,58 @@
   --icon-color: var(--color);
   --icon-height: 1.7rem;
 
-  color: transparent;
-  font-size: 0;
-  padding: 0.8rem;
   background-color: var(--link-background);
   border-radius: 1rem;
   justify-content: center;
   margin-bottom: 1rem;
+  padding: 0.8rem;
+  position: relative;
   transition: .2s linear;
   transition-property: background-color, border-radius;
 
-  @include helpers.beforeIcon();
+  span {
+    background-color: var(--link-background);
+    border-radius: 0.5rem;
+    color: var(--color);
+    display: none;
+    display: block;
+    left: 120%;
+    padding: .5em;
+    position: absolute;
+    scale: 0;
+    top: 0;
+    transform-origin: center left;
+    transition: scale .2s linear;
+    width: 50px;
+
+    &::before {
+      background-color: var(--link-background);
+      content: '';
+
+    }
+  }
 
   &:hover {
     --icon-color: var(--link-background);
+
     background-color: var(--color);
     border-radius: 0.5rem;
+
+    span {
+      display: block;
+      scale: 1;
+    }
   }
+
+  @include helpers.beforeIcon;
 }
 
 .wrapper {
+  background-color: var(--bg-color-dark0);
   height: 100vh;
   left: 0;
-  overflow: hidden auto;
+  padding: 1em;
   position: absolute;
   top: 0;
-  width: 5vw;
-  padding: 1em;
-  background-color: var(--bg-color-dark0);
+  width: 55px;
 }
