@@ -7,6 +7,12 @@ export const getDocumentCookie = (cookieName: string): number | string | undefin
   return map.get(cookieName) as number | string | undefined;
 };
 
+type optsParam = {
+  expires?: Date;
+  maxAge?: number;
+  path?: string;
+};
+
 export const setDocumentCookie = (cookieName: string, value: number | string, opts: optsParam = {}) => {
   const options = [
     opts.expires && `expires=${opts.expires}`,

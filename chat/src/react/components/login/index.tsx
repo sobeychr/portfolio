@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 export const Login = () => {
   const dialogRef = useRef(null);
   const formRef = useRef(null);
-  const user = useContext(UserContext);
+  const userContext = useContext(UserContext);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -23,8 +23,8 @@ export const Login = () => {
 
         if (!!loggedIn && !!username) {
           dialogRef?.current?.close();
-          user.setIsLoggedIn(true);
-          user.setUsername(username);
+          userContext.setIsLoggedIn(true);
+          userContext.setUsername(username);
         }
       });
   };
@@ -43,8 +43,8 @@ export const Login = () => {
 
           if (!!loggedIn && !!username) {
             dialogRef?.current?.close();
-            user.setIsLoggedIn(true);
-            user.setUsername(username);
+            userContext.setIsLoggedIn(true);
+            userContext.setUsername(username);
           } else {
             dialogRef?.current?.showModal();
           }
