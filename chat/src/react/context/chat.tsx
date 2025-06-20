@@ -1,23 +1,37 @@
-import { createContext, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
+
+export type ChatEntry = {
+  icon: string;
+  name: string;
+  uuid: string;
+};
 
 type ChatContextType = {
-  selectedChat: number;
-  setSelectedChat: (param: number) => void;
+  chat: ChatEntry;
+  chatList: ChatEntry[],
+  setChatById: (param: string) => void;
+  setChatList: (param: ChatEntry[]) => void;
 };
 
 export const ChatContext = createContext({} as ChatContextType);
 
 export const ChatContextComponent = ({ children }) => {
-  const [selectedChat, setSelectedChat] = useState(0);
+  const [chat, setChat] = useState({} as ChatEntry);
+  const [chatList, setChatList] = useState([] as ChatEntry[]);
 
-  const tt = (id) => {
-    console.log('chat context', id);
-    setSelectedChat(id);
-  };
+  const setChatById = useCallback((id: string) => {
+    const newChat = chatList.find(({ uuid }) => uuid === id);
+
+    if (newChat) {
+      setChat(newChat);
+    }
+  }, [chatList]);
 
   const value = {
-    selectedChat,
-    setSelectedChat: tt,
+    chat,
+    chatList,
+    setChatById,
+    setChatList,
   };
 
   return (<ChatContext value={value}>

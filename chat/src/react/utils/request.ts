@@ -23,7 +23,7 @@ export const baseRequest = async ({
   const contentType = asJson ? 'application/json' : 'text/plain';
 
   return fetch(request, {
-    body: JSON.stringify(postData),
+    body: !hasPost ? null : JSON.stringify(postData),
     headers: new Headers({
       'Content-Type': `${contentType};charset=utf-8`,
     }),

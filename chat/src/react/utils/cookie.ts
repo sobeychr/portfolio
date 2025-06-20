@@ -1,10 +1,10 @@
-export const getDocumentCookie = (cookieName: string): number | string | undefined => {
+export const getDocumentCookie = (cookieName: string): string | undefined => {
   const arr = (document?.cookie || '').split('; ').map(entry => {
     const [key, value] = entry.split('=');
-    return [key, parseFloat(value) || value];
+    return [key, value];
   });
   const map = new Map(arr);
-  return map.get(cookieName) as number | string | undefined;
+  return map.get(cookieName) as string | undefined;
 };
 
 type optsParam = {

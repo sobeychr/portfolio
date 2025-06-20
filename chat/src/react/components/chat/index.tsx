@@ -3,7 +3,7 @@ import { ChatContext } from '@context/chat';
 
 export const Chat = () => {
   const chatContext = useContext(ChatContext);
-  const selected = chatContext.selectedChat;
+  const chat = chatContext.chat;
 
-  return <h1>Chat {selected}</h1>;
+  return <h1>Chat {chat?.name}</h1>;
 };

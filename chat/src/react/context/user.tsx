@@ -3,8 +3,8 @@ import { createContext, useState } from 'react';
 type UserContextType = {
   isLoggedIn: boolean;
   setIsLoggedIn: (param: boolean) => void;
-  setUsername: (param: boolean) => void;
-  username: boolean;
+  setUsername: (param: string) => void;
+  username: string;
 };
 
 export const UserContext = createContext({} as UserContextType);

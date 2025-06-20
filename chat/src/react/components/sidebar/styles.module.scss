@@ -1,4 +1,14 @@
+@use 'sass:list' as list;
 @use '@styles/helpers.scss' as helpers;
+
+$COLORS: (
+  '#f00',
+  '#0f0',
+  '#4040ff',
+  '#ff0',
+  '#f0f',
+  '#0ff'
+);
 
 .header {
   font-size: 1.3em;
@@ -48,6 +58,17 @@
   }
 
   @include helpers.beforeIcon;
+}
+
+$length: list.length($COLORS);
+
+@each $color in $COLORS {
+  $index: list.index($COLORS, $color);
+  $selector: $length + 'n' + ' + #{$index}';
+
+  .link:not(.selected):nth-child(#{$selector}) {
+    --color: #{$color};
+  }
 }
 
 .wrapper {

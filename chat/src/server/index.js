@@ -4,6 +4,7 @@ import { SERVER_HOST, SERVER_PORT } from './configs.js';
 import { coreMiddleware } from './middlewares/core.js';
 import { errorMiddleware } from './middlewares/error.js';
 import { authRoutes } from './routes/auth.js';
+import { chatRoutes } from './routes/chat.js';
 import { homeRoutes } from './routes/home.js';
 
 const createServer = async () => {
@@ -17,6 +18,7 @@ const createServer = async () => {
 
   coreMiddleware(app, options);
   authRoutes(app);
+  chatRoutes(app);
   homeRoutes(app, options);
   errorMiddleware(app);
 
