@@ -11,7 +11,7 @@ const Link = ({ color, icon, id, name, onClick }) => {
   };
 
   return <a className={styles.link} href={`#${name}`} onClick={onClick(id)} style={style}>
-    <span>{name}</span>
+    <span className={styles['link-name']}>{name}</span>
   </a>;
 };
 

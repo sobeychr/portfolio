@@ -1,14 +1,6 @@
 @use 'sass:list' as list;
 @use '@styles/helpers.scss' as helpers;
-
-$COLORS: (
-  '#f00',
-  '#0f0',
-  '#4040ff',
-  '#ff0',
-  '#f0f',
-  '#0ff'
-);
+@use '@styles/chatColors.scss' as chatColors;
 
 .header {
   font-size: 1.3em;
@@ -29,29 +21,13 @@ $COLORS: (
   transition: .2s linear;
   transition-property: background-color, border-radius;
 
-  span {
-    background-color: var(--link-background);
-    border-radius: 0.5rem;
-    color: var(--color);
-    display: block;
-    left: 110%;
-    padding: 1em 0.5em;
-    position: absolute;
-    scale: 0;
-    top: 50%;
-    transform-origin: center left;
-    transition: scale .2s linear;
-    translate: 0 -50%;
-    white-space: nowrap;
-  }
-
   &:hover {
     --icon-color: var(--link-background);
 
     background-color: var(--color);
     border-radius: 0.5rem;
 
-    span {
+    .link-name {
       display: block;
       scale: 1;
     }
@@ -60,20 +36,38 @@ $COLORS: (
   @include helpers.beforeIcon;
 }
 
-$length: list.length($COLORS);
+.link-name {
+  background-color: var(--link-background);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 3px rgb(0, 0, 0, 0.5);
+  color: var(--color);
+  display: block;
+  left: 110%;
+  padding: 1em 0.5em;
+  position: absolute;
+  scale: 0;
+  top: 50%;
+  transform-origin: center left;
+  transition: scale .2s linear;
+  translate: 0 -50%;
+  white-space: nowrap;
+}
 
-@each $color in $COLORS {
-  $index: list.index($COLORS, $color);
+$length: list.length(chatColors.$COLORS);
+
+@each $color in chatColors.$COLORS {
+  $index: list.index(chatColors.$COLORS, $color);
   $selector: $length + 'n' + ' + #{$index}';
 
-  .link:not(.selected):nth-child(#{$selector}) {
+  .link:nth-child(#{$selector}) {
     --color: #{$color};
   }
 }
 
 .wrapper {
   background-color: var(--bg-color-dark0);
-  height: 100vh;
+  height: calc(100vh - 2em);
   padding: 1em;
   width: 55px;
+  z-index: 2;
 }

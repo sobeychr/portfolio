@@ -1,0 +1,29 @@
+@use 'sass:list' as list;
+@use '@styles/chatColors.scss' as chatColors;
+@use '@styles/helpers.scss' as helpers;
+
+.header {
+  background-color: var(--bg-color-dark0);
+  padding: 0.5em;
+  font-size: 1.5em;
+  display: block;
+  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.5);
+  color: var(--color);
+
+  &:before {
+    margin-right: 0.5em;
+  }
+
+  @include helpers.beforeIcon;
+}
+
+$length: list.length(chatColors.$COLORS);
+
+@each $color in chatColors.$COLORS {
+  $index: list.index(chatColors.$COLORS, $color);
+
+  .header.chat-#{$index} {
+    --color: #{$color};
+    --icon-color: #{$color};
+  }
+}
