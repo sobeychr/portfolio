@@ -8,7 +8,7 @@ export const homeRoutes = (app, options = {}) => {
   let cacheTemplate;
   const getTemplate = async () => {
     if (cacheTemplate) {
-      return cacheTemplate;
+      // return cacheTemplate;
     }
 
     const template = readFileSync(

@@ -1,6 +1,9 @@
+import { Server as IoServer } from 'socket.io';
 import { getFile } from './../utils.js';
 
-export const chatRoutes = app => {
+export const chatRoutes = (app, options = {}) => {
+  const { server } = options;
+
   let cacheList;
   const getList = () => {
     if (cacheList) {
@@ -21,5 +24,24 @@ export const chatRoutes = app => {
         'Content-Type': 'application/json; charset=utf-8',
       })
       .send(data).end();
+  });
+
+  const io = new IoServer(server);
+  io.of('/api/v1/chats').on('connection', (socket) => {
+    console.log('server connected', socket.id);
+
+    socket.on('disconnect', () => {
+      console.log('server disconnected', socket.id);
+    });
+
+    socket.on('newuser', username => {
+      console.log('newuser', socket.id, username);
+
+      socket.emit('adduser', username);
+    });
+
+    socket.on('removeuser', username => {
+      console.log('removeuser', username);
+    });
   });
 };

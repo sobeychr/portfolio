@@ -1,3 +1,4 @@
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from '@core/App';
 
@@ -12,10 +13,18 @@ import { App } from '@core/App';
     } else {
       const prevRoot = roots.get(nodeId);
       if (prevRoot) {
-        prevRoot.render(<App {...params} />);
+        prevRoot.render(
+          <StrictMode>
+            <App {...params} />
+          </StrictMode>
+        );
       } else {
         const root = createRoot(node);
-        root.render(<App {...params} />);
+        root.render(
+          <StrictMode>
+            <App {...params} />
+          </StrictMode>
+        );
         roots.set(nodeId, root);
       }
     }

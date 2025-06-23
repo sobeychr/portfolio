@@ -7,6 +7,7 @@
   ],
   "watch": [
     ".env",
+    "index.html",
     "src/server"
   ],
   "verbose": true
