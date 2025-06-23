@@ -73,17 +73,18 @@ label[for] {
 }
 
 input:is([type='number'], [type='password'], [type='text']),
-textarea label[for] {
+textarea {
   --color: var(--input-color);
 
   background: var(--bg-color-dark0);
   border: 2px solid var(--color);
-  border-radius: var(--radius);
+  border-radius: 0.8em;
   color: var(--color);
   margin: 0.3em;
   outline: none;
   padding: 0.3em 0.5em;
-  transition: border .2s linear, color .2s linear;
+  transition: .2s linear;
+  transition-property: border, border-radius, color;
 
   &:disabled,
   &[readonly] {
@@ -94,15 +95,12 @@ textarea label[for] {
 
   &:focus {
     --color: var(--input-color-focus);
+    border-radius: 0.5em;
   }
 
   &:hover:not(:disabled, :focus) {
     --color: var(--input-color-hover);
   }
-}
-
-main {
-  flex: 1 0 auto;
 }
 
 p {

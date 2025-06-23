@@ -12,8 +12,7 @@ export const useChat = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      // const socket = io('http://test-chat.local:3000/', {
-      const socket = io('http://test-chat.local:3000/api/v1/chats', {
+      const socket = io('/api/v1/chats', {
         transports: ['websocket'],
         withCredentials: true,
       });
@@ -28,8 +27,10 @@ export const useChat = () => {
 
       socket.on('adduser', username => {
         const uniques = new Set([...userList, username]);
-        console.log('adduser', uniques);
+        setUserList(Array.from(uniques));
       });
+
+      socket.emit('newuser', username);
 
       setLocalSocket(socket);
     }
@@ -39,17 +40,7 @@ export const useChat = () => {
     };
   }, [isLoggedIn, username]);
 
-  const onNewUser = () => {
-    localSocket.emit('newuser', username);
-  };
-
-  const onRemoveUser = () => {
-    localSocket.emit('removeuser', username);
-  };
-
   return {
-    onNewUser,
-    onRemoveUser,
     userList,
   };
 };

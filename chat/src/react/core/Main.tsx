@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { Chat } from '@components/chat';
+import { ChatMain } from '@components/chat/main';
 import { Login } from '@components/login';
 import { Sidebar } from '@components/sidebar';
 import type { ChatEntry } from '@context/chat';
@@ -22,8 +22,7 @@ export const Main = () => {
 
   return <>
     <Sidebar />
-    <main>
-      {!userContext.isLoggedIn ? <Login /> : <Chat />}
-    </main>
+    {!userContext.isLoggedIn && <Login />}
+    <ChatMain />
   </>;
 };

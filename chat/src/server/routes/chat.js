@@ -35,8 +35,6 @@ export const chatRoutes = (app, options = {}) => {
     });
 
     socket.on('newuser', username => {
-      console.log('newuser', socket.id, username);
-
       socket.emit('adduser', username);
     });
 

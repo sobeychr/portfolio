@@ -13,6 +13,9 @@
       "@core/*": [
         "src/react/core/*"
       ],
+      "@hooks/*": [
+        "src/react/hooks/*"
+      ],
       "@styles/*": [
         "src/react/styles/*"
       ],
