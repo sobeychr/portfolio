@@ -27,6 +27,12 @@ export const coreMiddleware = (app, options = {}) => {
 
   app.use(vite.middlewares);
 
+  app.use((_req, res, next) => {
+    res.removeHeader('X-Powered-By');
+    res.append('Keep-Alive', 'timeout=5');
+    next();
+  });
+
   app.use(responseTime((req, res, time) => {
     const { method, originalUrl } = req;
     const date = new Date();
@@ -46,7 +52,13 @@ export const coreMiddleware = (app, options = {}) => {
     );
   }));
 
-  app.use(timeout(SERVER_TIMEOUT));
+  // Dev env hack because hot reload can time out
+  if (IS_DEV) {
+    app.use(/\/.+/, timeout(SERVER_TIMEOUT));
+  }
+  else {
+    app.use(timeout(SERVER_TIMEOUT));
+  }
 
   app.use((req, res, next) => {
     const path = req.path;
