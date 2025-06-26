@@ -17,7 +17,7 @@ export const Main = () => {
       url: '/api/v1/chat/list',
     })
       .then((resp: ChatEntry[]) => {
-        chatContext.setChatList(resp);
+        chatContext.initChat(resp);
       });
   }, []);
 

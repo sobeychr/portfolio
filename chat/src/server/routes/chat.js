@@ -34,12 +34,8 @@ export const chatRoutes = (app, options = {}) => {
       console.log('server disconnected', socket.id);
     });
 
-    socket.on('newuser', username => {
-      socket.emit('adduser', username);
-    });
-
     socket.on('cTyping', username => {
-      console.log('sTyping', username);
+      socket.emit('sTyping', username);
     });
   });
 };

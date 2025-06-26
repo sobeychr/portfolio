@@ -4,4 +4,14 @@
 
 .input {}
 
+.loading {}
+
+.typing {
+  margin: 0.5em;
+  font-size: 0.8em;
+  color: var(--text-color-dark0);
+  pointer-events: none;
+  user-select: none;
+}
+
 .wrapper {}

@@ -2,7 +2,7 @@ import { ChangeEvent, useRef } from 'react';
 
 export const DEFAULT_REGEXP = /([^A-z0-9-\_]|\[|\])/g;
 
-export const TextInput = ({ id, name: nameParam, onChange: onChangeParam, regexp: regexpParam, ...rest }) => {
+export const TextAreaInput = ({ id, name: nameParam, onChange: onChangeParam, regexp: regexpParam, ...rest }) => {
   const inputRef = useRef(null);
 
   const name = nameParam || id;
@@ -18,5 +18,5 @@ export const TextInput = ({ id, name: nameParam, onChange: onChangeParam, regexp
     }
   };
 
-  return <input type='text' id={id} name={name} onChange={onChange} ref={inputRef} {...rest} />;
+  return <textarea id={id} name={name} onChange={onChange} ref={inputRef} {...rest} />;
 };
