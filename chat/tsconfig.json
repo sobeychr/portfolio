@@ -4,6 +4,9 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "paths": {
+      "@classes/*": [
+        "src/react/classes/*"
+      ],
       "@components/*": [
         "src/react/components/*"
       ],

@@ -9,7 +9,6 @@ import styles from './styles-main.module.scss';
 export const ChatMain = () => {
   const chatContext = useContext(ChatContext);
   const chatCurrent = chatContext.chat;
-  const { userList } = useChat();
 
   const index = clampLoop(chatContext.chatIndex + 1, 1, chatContext.chatList.length - 1);
   const classes = [
@@ -28,7 +27,6 @@ export const ChatMain = () => {
           {chatCurrent?.name}
         </span>
         <span className={styles['user-count']}>
-          ({userList.length} users)
         </span>
       </header>
       <ChatList />

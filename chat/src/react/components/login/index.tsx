@@ -23,8 +23,7 @@ export const Login = () => {
 
         if (!!loggedIn && !!username) {
           dialogRef?.current?.close();
-          userContext.setIsLoggedIn(true);
-          userContext.setUsername(username);
+          userContext.loginUser(username);
         }
       });
   };
@@ -43,8 +42,7 @@ export const Login = () => {
 
           if (!!loggedIn && !!username) {
             dialogRef?.current?.close();
-            userContext.setIsLoggedIn(true);
-            userContext.setUsername(username);
+            userContext.loginUser(username);
           } else {
             dialogRef?.current?.showModal();
           }

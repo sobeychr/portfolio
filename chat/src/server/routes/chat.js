@@ -38,8 +38,8 @@ export const chatRoutes = (app, options = {}) => {
       socket.emit('adduser', username);
     });
 
-    socket.on('removeuser', username => {
-      console.log('removeuser', username);
+    socket.on('cTyping', username => {
+      console.log('sTyping', username);
     });
   });
 };

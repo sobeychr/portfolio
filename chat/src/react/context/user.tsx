@@ -1,23 +1,26 @@
 import { createContext, useState } from 'react';
+import { CUser } from '@classes/CUser';
 
 type UserContextType = {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (param: boolean) => void;
-  setUsername: (param: string) => void;
-  username: string;
+  user: CUser;
+  loginUser: (username: string) => void;
 };
 
 export const UserContext = createContext({} as UserContextType);
 
 export const UserContextComponent = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
+  const [user, setUser] = useState(new CUser as CUser);
+
+  const loginUser = (username) => {
+    setUser(new CUser({
+      isLoggedIn: true,
+      username,
+    }));
+  };
 
   const value = {
-    isLoggedIn,
-    setIsLoggedIn,
-    setUsername,
-    username,
+    loginUser,
+    user,
   };
 
   return (<UserContext value={value}>

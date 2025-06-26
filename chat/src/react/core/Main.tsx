@@ -10,6 +10,7 @@ import { baseRequest } from '@utils/request';
 export const Main = () => {
   const chatContext = useContext(ChatContext);
   const userContext = useContext(UserContext);
+  const isLoggedIn = userContext?.user?.isLoggedIn;
 
   useEffect(() => {
     baseRequest({
@@ -22,7 +23,7 @@ export const Main = () => {
 
   return <>
     <Sidebar />
-    {!userContext.isLoggedIn && <Login />}
+    {!isLoggedIn && <Login />}
     <ChatMain />
   </>;
 };
