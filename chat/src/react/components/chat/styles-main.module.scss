@@ -3,19 +3,19 @@
 @use '@styles/helpers.scss' as helpers;
 
 .header {
-  background-color: var(--bg-color-dark0);
-  padding: 0.5em;
-  display: flex;
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.5);
-  flex-flow: row nowrap;
   align-items: center;
+  background-color: var(--bg-color-dark0);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 50%);
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0.5em;
 }
 
 .header-name {
   color: var(--color);
   font-size: 1.5em;
 
-  &:before {
+  &::before {
     margin-right: 0.5em;
   }
 
@@ -34,13 +34,13 @@ $length: list.length(chatColors.$COLORS);
 }
 
 .main {
-  flex: 1 0 auto;
   display: flex;
+  flex: 1 0 auto;
   flex-flow: column nowrap;
 }
 
 .user-count {
-  margin-left: 0.7em;
-  font-size: 0.8em;
   color: var(--text-color-dark0);
+  font-size: 0.8em;
+  margin-left: 0.7em;
 }

@@ -7,6 +7,23 @@
   font-weight: bold;
 }
 
+.link-name {
+  background-color: var(--link-background);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 3px rgb(0 0 0 / 50%);
+  color: var(--color);
+  display: block;
+  left: 110%;
+  padding: 1em 0.5em;
+  position: absolute;
+  scale: 0;
+  top: 50%;
+  transform-origin: center left;
+  transition: scale .2s linear;
+  translate: 0 -50%;
+  white-space: nowrap;
+}
+
 .link {
   --link-background: var(--bg-color);
   --icon-color: var(--color);
@@ -34,23 +51,6 @@
   }
 
   @include helpers.beforeIcon;
-}
-
-.link-name {
-  background-color: var(--link-background);
-  border-radius: 0.5rem;
-  box-shadow: 0 0 3px rgb(0, 0, 0, 0.5);
-  color: var(--color);
-  display: block;
-  left: 110%;
-  padding: 1em 0.5em;
-  position: absolute;
-  scale: 0;
-  top: 50%;
-  transform-origin: center left;
-  transition: scale .2s linear;
-  translate: 0 -50%;
-  white-space: nowrap;
 }
 
 $length: list.length(chatColors.$COLORS);

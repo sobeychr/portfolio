@@ -1,6 +1,6 @@
 import { createContext, useCallback, useState } from 'react';
-import { getDocumentCookie } from '@utils/cookie';
 import { CHAT_COOKIE } from '@utils/configs';
+import { getDocumentCookie } from '@utils/cookie';
 
 export type ChatEntry = {
   icon: string;
@@ -22,7 +22,7 @@ export const ChatContextComponent = ({ children }) => {
   const [chat, setChat] = useState({} as ChatEntry);
   const [chatList, setChatList] = useState([] as ChatEntry[]);
 
-  const initChat = (list: ChatEntry[]) => {
+  const initChat = useCallback((list: ChatEntry[]) => {
     setChatList(list);
 
     const lastChatId = getDocumentCookie(CHAT_COOKIE) as string | undefined;
@@ -30,15 +30,15 @@ export const ChatContextComponent = ({ children }) => {
     const firstChat = list[0];
 
     setChat(lastChat || firstChat);
-  };
+  }, []);
 
-  const setChatById = (id: string) => {
+  const setChatById = useCallback((id: string) => {
     const newChat = chatList.find(({ uuid }) => uuid === id);
 
     if (newChat) {
       setChat(newChat);
     }
-  };
+  }, [chatList.length]);
 
   const value = {
     chat,
