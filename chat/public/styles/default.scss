@@ -13,7 +13,7 @@ a {
 
   color: var(--color);
   text-decoration: none;
-  transition: color .2s linear;
+  transition: color var(--transition-default);
 
   &:hover {
     --color: var(--link-color-hover);
@@ -32,7 +32,8 @@ button {
   cursor: pointer;
   margin: 0.3em;
   padding: 0.3em 0.5em;
-  transition: border .2s linear, color .2s linear;
+  transition: var(--transition-default);
+  transition-property: border, color;
 
   &:disabled {
     pointer-events: none;
@@ -83,7 +84,7 @@ textarea {
   margin: 0.3em;
   outline: none;
   padding: 0.3em 0.5em;
-  transition: .2s linear;
+  transition: var(--transition-default);
   transition-property: border, border-radius, color;
 
   &:disabled,

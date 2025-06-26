@@ -50,13 +50,24 @@
 .typing {
   color: var(--text-color-dark0);
   font-size: 0.8em;
+  left: 0;
   margin: 0.5em;
   pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: opacity var(--transition-default);
+  translate: 0 -200%;
   user-select: none;
 
   &:not(.is-typing) {
-    display: none;
+    opacity: 0;
   }
 }
 
-// .wrapper {}
+.wrapper {
+  background-color: var(--bg-color-dark1);
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0.5em;
+  position: relative;
+}

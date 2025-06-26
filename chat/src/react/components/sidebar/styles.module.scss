@@ -19,7 +19,7 @@
   scale: 0;
   top: 50%;
   transform-origin: center left;
-  transition: scale .2s linear;
+  transition: scale var(--transition-default);
   translate: 0 -50%;
   white-space: nowrap;
 }
@@ -35,7 +35,7 @@
   margin-bottom: 1rem;
   padding: 0.8rem;
   position: relative;
-  transition: .2s linear;
+  transition: var(--transition-default);
   transition-property: background-color, border-radius;
 
   &:hover {
