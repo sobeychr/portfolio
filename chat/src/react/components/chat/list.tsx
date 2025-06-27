@@ -9,16 +9,14 @@ type ChatEntryParam = {
 };
 
 const ChatEntry = ({ message }: ChatEntryParam) => {
-  return <article>
-    <header>
-      {message.username}
+  return <article className={styles.entry}>
+    <header className={styles['entry-header']}>
+      <span className={styles['entry-time']} data-title={message.dateStr}>{message.timeStr}</span>
+      <span className={styles['entry-name']}>{message.username}</span>
     </header>
-    <p>
+    <p className={styles['entry-content']}>
       {message.content}
     </p>
-    <footer>
-      {message.timestamp}
-    </footer>
   </article>;
 };
 
@@ -31,9 +29,6 @@ export const ChatList = () => {
 
   return (
     <section className={styles.wrapper}>
-      {messages.map(entry => {
-        const key = `${entry.chatUuid}-${entry.timestamp}`;
-        return <ChatEntry key={key} message={entry} />;
-      })}
+      {messages.map(entry => <ChatEntry key={entry.key} message={entry} />)}
     </section>);
 };

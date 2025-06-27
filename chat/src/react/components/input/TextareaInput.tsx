@@ -1,6 +1,6 @@
 import { ChangeEvent, useRef } from 'react';
 
-export const DEFAULT_REGEXP = /([^A-z0-9-\_]|\[|\])/g;
+export const DEFAULT_REGEXP = /([^A-z0-9-\_\n\ ]|\[|\])/g;
 
 export const TextareaInput = ({ id, name: nameParam, onChange: onChangeParam, regexp: regexpParam, ref, ...rest }) => {
   const inputRef = !ref && useRef(null);

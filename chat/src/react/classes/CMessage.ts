@@ -10,6 +10,8 @@ export class CMessage implements CMessageParam {
   content: string;
   date: Date;
   dateStr: string;
+  timeStr: string;
+  key: string;
   timestamp: number;
   username: string;
 
@@ -24,9 +26,16 @@ export class CMessage implements CMessageParam {
       this.date.toISOString().split('T')?.[0],
       this.date.toTimeString().split(' ')?.[0],
     ].join(' ');
+    this.timeStr = this.date.toTimeString().split(' ')?.[0];
+
+    this.key = `${this.chatUuid}-${this.timestamp}`;
 
     Object.freeze(this);
   }
+
+  static generateList = (list: CMessageParam[]): CMessage[] => {
+    return list.map(entry => new CMessage(entry)).sort(CMessage.sort);
+  };
 
   static sort(a: CMessage, b: CMessage) {
     return a.timestamp > b.timestamp ? 1 : -1;

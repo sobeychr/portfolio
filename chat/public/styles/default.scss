@@ -114,3 +114,31 @@ p {
   display: flex;
   flex-flow: row nowrap;
 }
+
+[data-title] {
+  position: relative;
+
+  &::after {
+    background-color: var(--bg-color-dark1);
+    border-radius: 0.8em;
+    color: var(--text-color-dark0);
+    content: attr(data-title);
+    left: 0;
+    opacity: 0;
+    padding: 0.5em 0.8em;
+    position: absolute;
+    scale: 0;
+    top: 0;
+    transform-origin: top left;
+    transition: var(--transition-default);
+    transition-property: opacity, scale;
+    white-space: nowrap;
+    word-break: keep-all;
+    z-index: 2;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    scale: 1;
+  }
+}

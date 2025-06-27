@@ -1,3 +1,55 @@
+.entry {
+  background-color: transparent;
+  display: flex;
+  flex-flow: row nowrap;
+  margin-top: 0.5em;
+  padding-left: 0.5em;
+  transition: background-color var(--transition-default);
+
+  &:hover {
+    background-color: var(--bg-color-white0);
+  }
+}
+
+.entry-content {
+  background-color: transparent;
+  max-width: 750px;
+  padding: 0.5em;
+  text-align: justify;
+  white-space: pre-line;
+  word-wrap: normal;
+}
+
+.entry-header {
+  display: flex;
+  flex-flow: column nowrap;
+  font-size: 0.7em;
+  gap: 0.5em;
+  padding: 0.5em;
+  text-align: right;
+  width: 100px;
+}
+
+.entry-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+
+  &:hover {
+    white-space: normal;
+  }
+}
+
+.entry-time {
+  color: var(--text-color-dark0);
+
+  &::after {
+    translate: 70% 50%;
+  }
+}
+
 .wrapper {
   flex: 1 0 auto;
+  font-size: 1rem;
 }

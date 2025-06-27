@@ -1,7 +1,7 @@
 import { createContext, useEffect, useReducer, useState } from 'react';
 import { io } from 'socket.io-client';
 import { CMessage, type CMessageParam } from '@classes/CMessage';
-import { INIT_STATE, messageReducer } from './messageReducer';
+import { INIT_STATE, messageReducer, TYPE_LIST, TYPE_MESSAGE, TYPE_TYPING } from './messageReducer';
 
 type MessageContextType = {
   messages: CMessage[];
@@ -55,21 +55,21 @@ export const MessageContextComponent = ({ children }) => {
     socket.on('sLoad', list => {
       dispatch({
         list,
-        type: 'list',
+        type: TYPE_LIST,
       });
     });
 
     socket.on('sMessage', ({ chatUuid, content, timestamp, username }) => {
       dispatch({
         message: new CMessage({ chatUuid, content, timestamp, username }),
-        type: 'message',
+        type: TYPE_MESSAGE,
       });
     });
 
     socket.on('sTyping', ({ on, username }) => {
       dispatch({
         on,
-        type: 'typing',
+        type: TYPE_TYPING,
         username,
       });
     });

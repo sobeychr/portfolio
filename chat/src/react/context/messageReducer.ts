@@ -1,5 +1,9 @@
 import { CMessage } from '@classes/CMessage';
 
+export const TYPE_LIST = 'message-list';
+export const TYPE_MESSAGE = 'message-message';
+export const TYPE_TYPING = 'message-typing';
+
 export type StateType = {
   messages: CMessage[];
   typing: string[];
@@ -21,17 +25,16 @@ type ActionType = {
 export const messageReducer = (state: StateType, action: ActionType) => {
   const { type = '' } = action;
 
-  if (type === 'list') {
+  if (type === TYPE_LIST) {
     const { list } = action;
-    const sortedList = (list || []).sort(CMessage.sort);
 
     return {
       ...state,
-      messages: sortedList,
+      messages: CMessage.generateList(list || []),
     };
   }
 
-  if (type === 'message') {
+  if (type === TYPE_MESSAGE) {
     const { message } = action;
     const newMessages = [...state.messages, message].sort(CMessage.sort);
 
@@ -41,7 +44,7 @@ export const messageReducer = (state: StateType, action: ActionType) => {
     };
   }
 
-  else if (type === 'typing') {
+  else if (type === TYPE_TYPING) {
     const { on, username } = action;
 
     const uniques = !on ? [] : new Set([...state.typing, username]);
