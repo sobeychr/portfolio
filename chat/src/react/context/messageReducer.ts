@@ -16,6 +16,7 @@ export const INIT_STATE = {
 } as StateType;
 
 type ActionType = {
+  list?: MessageType[];
   message?: MessageType;
   on?: boolean;
   type: string;
@@ -28,6 +29,16 @@ const sortMessages = (a: MessageType, b: MessageType) => {
 
 export const messageReducer = (state: StateType, action: ActionType) => {
   const { type = '' } = action;
+
+  if (type === 'list') {
+    const { list } = action;
+
+    return {
+      ...state,
+      messages: list,
+    };
+  }
+
   if (type === 'message') {
     const { message } = action;
     const newMessages = [...state.messages, message].sort(sortMessages);

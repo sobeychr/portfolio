@@ -44,10 +44,19 @@ export const MessageContextComponent = ({ children }) => {
 
     socket.on('connect', () => {
       console.log('client connected', socket.id);
+
+      socket?.emit('cLoad');
     });
 
     socket.on('connect_error', err => {
       console.log('client error', err);
+    });
+
+    socket.on('sLoad', list => {
+      dispatch({
+        list,
+        type: 'list',
+      });
     });
 
     socket.on('sMessage', ({ chatUuid, content, timestamp, username }) => {
