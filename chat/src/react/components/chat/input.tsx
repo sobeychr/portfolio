@@ -43,13 +43,16 @@ export const ChatInput = () => {
   const onSubmit = (e?: FormEvent) => {
     e?.preventDefault();
 
-    const content = inputRef?.current?.value || '';
-    messageContext.sendMessage({
-      chatUuid: chatContext?.chat?.uuid,
-      content,
-      timestamp: Date.now(),
-      username,
-    });
+    const content = (inputRef?.current?.value || '').trim();
+
+    if (content.length > 0) {
+      messageContext.sendMessage({
+        chatUuid: chatContext?.chat?.uuid,
+        content,
+        timestamp: Date.now(),
+        username,
+      });
+    }
 
     inputRef.current.value = '';
     messageContext.offTyping(username);

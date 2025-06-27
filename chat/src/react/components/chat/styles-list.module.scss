@@ -1,3 +1,21 @@
+.date-split {
+  color: var(--text-color-dark1);
+  display: flex;
+  flex-flow: row nowrap;
+  font-size: 0.7em;
+  padding: 0.5em 0;
+  text-align: center;
+
+  &::after,
+  &::before {
+    background: var(--text-color-dark1);
+    content: '';
+    flex: 1 0 auto;
+    height: 1px;
+    margin: 0.4em 1.5em;
+  }
+}
+
 .entry {
   background-color: transparent;
   display: flex;
@@ -50,6 +68,11 @@
 }
 
 .wrapper {
-  flex: 1 0 auto;
+  --height: calc(100vh - 45px - 90px - 20px);
+
+  flex: 0 1 var(--height);
   font-size: 1rem;
+  max-height: var(--height);
+  overflow-y: auto;
+  padding-bottom: 20px;
 }

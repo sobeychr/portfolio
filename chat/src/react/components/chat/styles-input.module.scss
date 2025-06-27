@@ -23,8 +23,6 @@
   }
 }
 
-// .input {}
-
 .loading {
   --icon-color: var(--text-color-dark0);
   --icon-height: 0.3em;
@@ -48,15 +46,18 @@
 }
 
 .typing {
+  background-color: var(--bg-color);
+  border-radius: 0.5em;
   color: var(--text-color-dark0);
   font-size: 0.8em;
   left: 0;
   margin: 0.5em;
+  padding: 0.5em;
   pointer-events: none;
   position: absolute;
   top: 0;
   transition: opacity var(--transition-default);
-  translate: 0 -200%;
+  translate: 0 -3em;
   user-select: none;
 
   &:not(.is-typing) {
@@ -68,6 +69,7 @@
   background-color: var(--bg-color-dark1);
   display: flex;
   flex-flow: row nowrap;
+  height: calc(90px - 1em);
   padding: 0.5em;
   position: relative;
 }
