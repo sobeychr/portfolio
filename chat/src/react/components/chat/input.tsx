@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FormEvent, useContext, useRef } from 'react';
+import { type ChangeEvent, type FormEvent, type KeyboardEvent, useContext, useRef } from 'react';
 import { TextareaInput } from '@components/input/TextareaInput';
 import { ChatContext } from '@context/chat';
 import { MessageContext } from '@context/message';
@@ -13,8 +13,8 @@ export const ChatInput = () => {
 
   const username = userContext?.user?.username;
 
-  // const typingList = (messageContext?.state?.typing || []).filter(name => name !== username);
-  const typingList = (messageContext?.state?.typing || []);
+  // const typingList = (messageContext?.typing || []).filter(name => name !== username);
+  const typingList = (messageContext?.typing || []);
   const isTyping = typingList.length > 0;
 
   const typingClasses = [
@@ -32,7 +32,15 @@ export const ChatInput = () => {
     }
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onKeyUp = (e: KeyboardEvent) => {
+    const { altKey = false, ctrlKey = false, shiftKey = false, keyCode = 0 } = e || {};
+    const isSubmit = altKey || ctrlKey || shiftKey;
+    if (keyCode === 13 && isSubmit) {
+      onSubmit();
+    }
+  };
+
+  const onSubmit = (e?: FormEvent) => {
     e?.preventDefault();
 
     const content = inputRef?.current?.value || '';
@@ -57,7 +65,9 @@ export const ChatInput = () => {
     <form action='/api/v1/chats' method='post' onSubmit={onSubmit}>
       <TextareaInput
         className={styles.input}
+        id='content'
         onChange={onChange}
+        onKeyUp={onKeyUp}
         placeholder='new message...'
         ref={inputRef}
       />

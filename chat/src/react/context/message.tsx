@@ -1,14 +1,14 @@
 import { createContext, useEffect, useReducer, useState } from 'react';
 import { io } from 'socket.io-client';
+import { CMessage, type CMessageParam } from '@classes/CMessage';
 import { INIT_STATE, messageReducer } from './messageReducer';
 
-import type { MessageType, StateType } from './messageReducer';
-
 type MessageContextType = {
+  messages: CMessage[];
   offTyping: (param: string) => void;
   onTyping: (param: string) => void;
-  sendMessage: (param: MessageType) => void;
-  state: StateType;
+  sendMessage: (param: CMessageParam) => void;
+  typing: string[];
 };
 
 export const MessageContext = createContext({} as MessageContextType);
@@ -17,8 +17,8 @@ export const MessageContextComponent = ({ children }) => {
   const [state, dispatch] = useReducer(messageReducer, INIT_STATE);
   const [localSocket, setLocalSocket] = useState({});
 
-  const sendMessage = (message: MessageType) => {
-    localSocket?.emit('cMessage', message);
+  const sendMessage = (message: CMessageParam) => {
+    localSocket?.emit('cMessage', new CMessage(message));
   };
 
   const offTyping = (username: string) => {
@@ -61,7 +61,7 @@ export const MessageContextComponent = ({ children }) => {
 
     socket.on('sMessage', ({ chatUuid, content, timestamp, username }) => {
       dispatch({
-        message: { chatUuid, content, timestamp, username },
+        message: new CMessage({ chatUuid, content, timestamp, username }),
         type: 'message',
       });
     });
@@ -76,10 +76,11 @@ export const MessageContextComponent = ({ children }) => {
   }, []);
 
   const value = {
+    messages: state.messages || [],
     offTyping,
     onTyping,
     sendMessage,
-    state,
+    typing: state.typing || [],
   };
 
   return (<MessageContext value={value}>

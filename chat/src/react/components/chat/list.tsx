@@ -1,11 +1,11 @@
 import { useContext } from 'react';
+import type { CMessage } from '@classes/CMessage';
 import { ChatContext } from '@context/chat';
 import { MessageContext } from '@context/message';
-import { MessageType } from '@context/messageReducer';
 import styles from './styles-list.module.scss';
 
 type ChatEntryParam = {
-  message: MessageType;
+  message: CMessage;
 };
 
 const ChatEntry = ({ message }: ChatEntryParam) => {
@@ -27,7 +27,7 @@ export const ChatList = () => {
   const messageContext = useContext(MessageContext);
 
   const currentChat = chatContext?.chat?.uuid;
-  const messages = (messageContext?.state?.messages || []).filter(({ chatUuid }) => chatUuid === currentChat);
+  const messages = (messageContext?.messages || []).filter(({ chatUuid }) => chatUuid === currentChat);
 
   return (
     <section className={styles.wrapper}>

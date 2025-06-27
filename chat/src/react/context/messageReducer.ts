@@ -1,12 +1,7 @@
-export type MessageType = {
-  chatUuid: string;
-  content: string;
-  timestamp: number;
-  username: string;
-};
+import { CMessage } from '@classes/CMessage';
 
 export type StateType = {
-  messages: MessageType[];
+  messages: CMessage[];
   typing: string[];
 };
 
@@ -16,15 +11,11 @@ export const INIT_STATE = {
 } as StateType;
 
 type ActionType = {
-  list?: MessageType[];
-  message?: MessageType;
+  list?: CMessage[];
+  message?: CMessage;
   on?: boolean;
   type: string;
   username?: string;
-};
-
-const sortMessages = (a: MessageType, b: MessageType) => {
-  return a.timestamp > b.timestamp ? 1 : -1;
 };
 
 export const messageReducer = (state: StateType, action: ActionType) => {
@@ -32,16 +23,17 @@ export const messageReducer = (state: StateType, action: ActionType) => {
 
   if (type === 'list') {
     const { list } = action;
+    const sortedList = (list || []).sort(CMessage.sort);
 
     return {
       ...state,
-      messages: list,
+      messages: sortedList,
     };
   }
 
   if (type === 'message') {
     const { message } = action;
-    const newMessages = [...state.messages, message].sort(sortMessages);
+    const newMessages = [...state.messages, message].sort(CMessage.sort);
 
     return {
       ...state,
