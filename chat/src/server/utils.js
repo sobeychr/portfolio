@@ -24,7 +24,7 @@ export const getFile = (path, asJson = true) => {
     return null;
   }
 
-  const str = readFileSync(filepath,);
+  const str = readFileSync(filepath, FILE_OPTIONS);
   return asJson ? JSON.parse(str) : str;
 };
 

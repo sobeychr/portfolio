@@ -54,7 +54,7 @@ export const coreMiddleware = (app, options = {}) => {
 
   // Dev env hack because hot reload can time out
   if (IS_DEV) {
-    app.use(/\/.+/, timeout(SERVER_TIMEOUT));
+    app.use(/^\/api/, timeout(SERVER_TIMEOUT));
   }
   else {
     app.use(timeout(SERVER_TIMEOUT));

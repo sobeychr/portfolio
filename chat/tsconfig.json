@@ -5,22 +5,31 @@
     "jsxImportSource": "react",
     "paths": {
       "@classes/*": [
-        "src/react/classes/*"
-      ],
-      "@components/*": [
-        "src/react/components/*"
-      ],
-      "@context/*": [
-        "src/react/context/*"
-      ],
-      "@core/*": [
-        "src/react/core/*"
+        "src/common/classes/*"
       ],
       "@styles/*": [
-        "src/react/styles/*"
+        "src/common/styles/*"
       ],
       "@utils/*": [
-        "src/react/utils/*"
+        "src/common/utils/*"
+      ],
+      "@r-components/*": [
+        "src/react/components/*"
+      ],
+      "@r-context/*": [
+        "src/react/context/*"
+      ],
+      "@r-core/*": [
+        "src/react/core/*"
+      ],
+      "@s-components/*": [
+        "src/solid/components/*"
+      ],
+      "@s-context/*": [
+        "src/solid/context/*"
+      ],
+      "@s-core/*": [
+        "src/solid/core/*"
       ]
     },
     "strictNullChecks": true
@@ -30,6 +39,8 @@
     "node_modules"
   ],
   "include": [
-    "src/react"
+    "src/common",
+    "src/react",
+    "src/solid"
   ]
 }

@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react';
+import solid from 'vite-plugin-solid';
 import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 import { getBuildDetails, getGitLogs, tsAliasToVite } from './script/build';
@@ -35,6 +36,7 @@ const configs = defineConfig(({ mode }) => {
   return {
     appType: 'spa',
     base: '/',
+    /*
     build: {
       emptyOutDir: true,
       manifest: false,
@@ -61,6 +63,7 @@ const configs = defineConfig(({ mode }) => {
         },
       },
     },
+    */
     clearScreen: false,
     define: {
       'import.meta.env.BUILD': JSON.stringify(build),
@@ -70,7 +73,14 @@ const configs = defineConfig(({ mode }) => {
     devSourcemap: true,
     mode,
     plugins: [
-      react(),
+      react({
+        exclude: 'src/solid/**/*',
+        include: 'src/react/**/*',
+      }),
+      solid({
+        exclude: 'src/react/**/*',
+        include: 'src/solid/**/*',
+      }),
     ],
     publicDir: PATH_ROOT.concat('public/'),
     resolve: {

@@ -1,10 +1,10 @@
 import { useContext, useEffect } from 'react';
-import { ChatMain } from '@components/chat/main';
-import { Login } from '@components/login';
-import { Sidebar } from '@components/sidebar';
-import type { ChatEntry } from '@context/chat';
-import { ChatContext } from '@context/chat';
-import { UserContext } from '@context/user';
+import { ChatMain } from '@r-components/chat/main';
+import { Login } from '@r-components/login';
+import { Sidebar } from '@r-components/sidebar';
+import type { ChatEntry } from '@r-context/chat';
+import { ChatContext } from '@r-context/chat';
+import { UserContext } from '@r-context/user';
 import { baseRequest } from '@utils/request';
 
 export const Main = () => {

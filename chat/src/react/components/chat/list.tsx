@@ -1,8 +1,8 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import type { CMessage } from '@classes/CMessage';
-import { ChatContext } from '@context/chat';
-import { MessageContext } from '@context/message';
-import styles from './styles-list.module.scss';
+import { ChatContext } from '@r-context/chat';
+import { MessageContext } from '@r-context/message';
+import styles from '@styles/components/chat/list.module.scss';
 
 type ChatEntryParam = {
   prevDate: number;
@@ -31,6 +31,7 @@ const ChatEntry = ({ message, prevDate }: ChatEntryParam) => {
 export const ChatList = () => {
   const chatContext = useContext(ChatContext);
   const messageContext = useContext(MessageContext);
+  const scrollRef = useRef(null);
 
   const currentChat = chatContext?.chat?.uuid;
   const list = (messageContext?.messages || []).filter(({ chatUuid }) => chatUuid === currentChat);
@@ -44,8 +45,13 @@ export const ChatList = () => {
     });
   }, [currentChat, list.length]);
 
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView?.();
+  }, [currentChat, list.length]);
+
   return (
     <section className={styles.wrapper}>
       {messages}
+      <div ref={scrollRef} />
     </section>);
 };

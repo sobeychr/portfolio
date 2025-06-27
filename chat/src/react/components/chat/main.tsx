@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { ChatContext } from '@context/chat';
+import { ChatContext } from '@r-context/chat';
 import { clampLoop } from '@utils/number';
 import { ChatInput } from './input';
 import { ChatList } from './list';
-import styles from './styles-main.module.scss';
+import styles from '@styles/components/chat/main.module.scss';
 
 export const ChatMain = () => {
   const chatContext = useContext(ChatContext);

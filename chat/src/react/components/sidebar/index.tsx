@@ -1,8 +1,8 @@
 import { useCallback, useContext, useMemo } from 'react';
-import { ChatContext } from '@context/chat';
+import { ChatContext } from '@r-context/chat';
 import { CHAT_COOKIE, DURATION_WEEK } from '@utils/configs';
 import { setDocumentCookie } from '@utils/cookie';
-import styles from './styles.module.scss';
+import styles from '@styles/components/sidebar/styles.module.scss';
 
 const Link = ({ color, icon, id, name, onClick }) => {
   const style = {

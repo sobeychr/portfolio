@@ -1,9 +1,9 @@
 import { type ChangeEvent, type FormEvent, type KeyboardEvent, useContext, useRef } from 'react';
-import { TextareaInput } from '@components/input/TextareaInput';
-import { ChatContext } from '@context/chat';
-import { MessageContext } from '@context/message';
-import { UserContext } from '@context/user';
-import styles from './styles-input.module.scss';
+import { TextareaInput } from '@r-components/input/TextareaInput';
+import { ChatContext } from '@r-context/chat';
+import { MessageContext } from '@r-context/message';
+import { UserContext } from '@r-context/user';
+import styles from '@styles/components/chat/input.module.scss';
 
 export const ChatInput = () => {
   const chatContext = useContext(ChatContext);

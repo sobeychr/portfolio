@@ -1,5 +1,5 @@
-import { createRoot } from 'react-dom/client';
-import { App } from '@r-core/App';
+import { hydrate, render } from 'solid-js/web';
+import { App } from '@s-core/App';
 
 (function (win, doc) {
   const roots = new Map();
@@ -12,15 +12,16 @@ import { App } from '@r-core/App';
     } else {
       const prevRoot = roots.get(nodeId);
       if (prevRoot) {
-        prevRoot.render(
-          <App {...params} />
+        hydrate(
+          () => <App {...params} />,
+          node,
         );
       } else {
-        const root = createRoot(node);
-        root.render(
-          <App {...params} />
+        const disposer = render(
+          () => <App {...params} />,
+          node,
         );
-        roots.set(nodeId, root);
+        roots.set(nodeId, disposer);
       }
     }
   };
@@ -31,7 +32,7 @@ import { App } from '@r-core/App';
     if (!prevRoot) {
       console.error(`[onUnmount()] Unable to unmount DOM element #${nodeId}`);
     } else {
-      prevRoot.unmount();
+      prevRoot();
       roots.delete(nodeId);
     }
   };

@@ -1,7 +1,7 @@
-import { ChatContextComponent } from '@context/chat';
-import { MessageContextComponent } from '@context/message';
-import { UserContextComponent } from '@context/user';
-import { Main } from '@core/Main';
+import { ChatContextComponent } from '@r-context/chat';
+import { MessageContextComponent } from '@r-context/message';
+import { UserContextComponent } from '@r-context/user';
+import { Main } from '@r-core/Main';
 
 export const App = () => {
   return <UserContextComponent>

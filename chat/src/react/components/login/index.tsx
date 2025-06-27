@@ -1,11 +1,11 @@
 import type { FormEvent } from 'react';
 import { useContext, useEffect, useRef } from 'react';
-import { TextInput } from '@components/input/TextInput';
-import { UserContext } from '@context/user';
+import { TextInput } from '@r-components/input/TextInput';
+import { UserContext } from '@r-context/user';
 import { AUTH_COOKIE, AUTH_POST } from '@utils/configs';
 import { getDocumentCookie } from '@utils/cookie';
 import { baseRequest, formRequest } from '@utils/request';
-import styles from './styles.module.scss';
+import styles from '@styles/components/login/styles.module.scss';
 
 export const Login = () => {
   const dialogRef = useRef(null);
