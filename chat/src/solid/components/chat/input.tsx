@@ -1,8 +1,8 @@
-import { useMessageContext } from '@s-context/message';
 import { TextareaInput } from '@s-components/input/TextareaInput';
-import styles from '@styles/components/chat/input.module.scss';
 import { useChatContext } from '@s-context/chat';
+import { useMessageContext } from '@s-context/message';
 import { useUserContext } from '@s-context/user';
+import styles from '@styles/components/chat/input.module.scss';
 
 export const ChatInput = () => {
   const { chat } = useChatContext();
@@ -18,6 +18,7 @@ export const ChatInput = () => {
     [styles.typing]: true,
     [styles['is-typing']]: isTyping(),
   });
+  const typingString = () => store.typing.length === 1 ? '1 other is typing' : `${store.typing.length} others are typing`;
 
   const onKeyUp = (e: Event & KeyboardEvent) => {
     const input = e?.target?.value;
@@ -53,7 +54,7 @@ export const ChatInput = () => {
 
   return (<footer class={styles.wrapper}>
     <p classList={typingClasses()}>
-      alpha
+      {typingString()}
       <i class={styles.loading}></i>
       <i class={styles.loading}></i>
       <i class={styles.loading}></i>

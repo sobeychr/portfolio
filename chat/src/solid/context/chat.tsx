@@ -1,7 +1,7 @@
 import { createContext, createEffect, createResource, createSignal, useContext } from 'solid-js';
-import { baseRequest } from '@utils/request';
 import { CHAT_COOKIE } from '@utils/configs';
 import { getDocumentCookie } from '@utils/cookie';
+import { baseRequest } from '@utils/request';
 
 type ChatContextType = {
   chat: () => ChatEntry;

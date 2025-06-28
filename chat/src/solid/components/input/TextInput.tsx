@@ -1,6 +1,6 @@
 export const DEFAULT_REGEXP = /([^A-z0-9-\_]|\[|\])/g;
 
-export const TextInput = ({ id, name: nameParam, regexp: regexpParam, ref, ...rest }) => {
+export const TextInput = ({ id, name: nameParam, regexp: regexpParam, ...rest }) => {
   const name = nameParam || id;
   const regexp = regexpParam || DEFAULT_REGEXP;
 

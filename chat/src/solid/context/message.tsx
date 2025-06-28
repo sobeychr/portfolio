@@ -1,6 +1,6 @@
+import { io } from 'socket.io-client';
 import { createContext, createSignal, onMount, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { io } from 'socket.io-client';
 import { CMessage, type CMessageParam } from '@classes/CMessage';
 
 type StoreType = {
@@ -59,6 +59,10 @@ export const MessageContextComponent = (props) => {
 
     socket.on('connect_error', err => {
       console.log('client error', err);
+    });
+
+    socket.on('sLoad', list => {
+      setStore({ messages: CMessage.generateList(list || []) });
     });
 
     socket.on('sMessage', ({ chatUuid, content, timestamp, username }) => {

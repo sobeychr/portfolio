@@ -1,10 +1,10 @@
-import { useUserContext } from '@s-context/user';
-import styles from '@styles/components/login/styles.module.scss';
-import { AUTH_COOKIE, AUTH_POST } from '@utils/configs';
-import { baseRequest, formRequest } from '@utils/request';
-import { getDocumentCookie } from '@utils/cookie';
 import { onMount } from 'solid-js';
 import { TextInput } from '@s-components/input/TextInput';
+import { useUserContext } from '@s-context/user';
+import { AUTH_COOKIE, AUTH_POST } from '@utils/configs';
+import { getDocumentCookie } from '@utils/cookie';
+import { baseRequest, formRequest } from '@utils/request';
+import styles from '@styles/components/login/styles.module.scss';
 
 export const Login = () => {
   const { loginUser } = useUserContext();

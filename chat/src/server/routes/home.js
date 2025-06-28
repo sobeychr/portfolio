@@ -1,6 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { PATH_ROOT } from './../configs.js';
 import { getFile } from './../utils.js';
 
 export const homeRoutes = (app, options = {}) => {
@@ -49,11 +46,6 @@ export const homeRoutes = (app, options = {}) => {
         return configs[key];
       });
 
-      /*
-      if (configs.transform) {
-        html = await vite.transformIndexHtml('/', parsed);
-      }
-      */
       html = configs.transform
         ? await vite.transformIndexHtml('/', parsed)
         : parsed;

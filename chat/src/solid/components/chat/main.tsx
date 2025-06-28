@@ -1,8 +1,8 @@
 import { useChatContext } from '@s-context/chat';
 import { clampLoop } from '@utils/number';
-import styles from '@styles/components/chat/main.module.scss';
 import { ChatInput } from './input';
 import { ChatList } from './list';
+import styles from '@styles/components/chat/main.module.scss';
 
 export const ChatMain = () => {
   const { chat, chatList } = useChatContext();

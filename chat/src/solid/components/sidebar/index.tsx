@@ -1,8 +1,8 @@
+import { For } from 'solid-js';
+import { useChatContext } from '@s-context/chat';
 import { CHAT_COOKIE, DURATION_WEEK } from '@utils/configs';
 import { setDocumentCookie } from '@utils/cookie';
 import styles from '@styles/components/sidebar/styles.module.scss';
-import { For } from 'solid-js';
-import { useChatContext } from '@s-context/chat';
 
 const Link = ({ color, icon, name, onClick }) => {
   const style = {
