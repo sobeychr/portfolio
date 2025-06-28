@@ -25,8 +25,6 @@ export const ChatMain = () => {
         <span className={classes.join(' ')}>
           {chatCurrent?.name}
         </span>
-        <span className={styles['user-count']}>
-        </span>
       </header>
       <ChatList />
       <ChatInput />

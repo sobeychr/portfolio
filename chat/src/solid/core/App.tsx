@@ -1,10 +1,8 @@
-/** @jsxImportSource solid-js */
-import { onMount } from 'solid-js';
+import { ChatContextComponent } from '@s-context/chat';
+import { Main } from '@s-core/Main';
 
 export const App = () => {
-  onMount(() => {
-    console.log('solid mounted');
-  });
-
-  return <h1>solid</h1>;
+  return <ChatContextComponent>
+    <Main />
+  </ChatContextComponent>;
 };
