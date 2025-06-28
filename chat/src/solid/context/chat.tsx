@@ -3,7 +3,13 @@ import { baseRequest } from '@utils/request';
 import { CHAT_COOKIE } from '@utils/configs';
 import { getDocumentCookie } from '@utils/cookie';
 
-export const ChatContext = createContext({});
+type ChatContextType = {
+  chat: () => ChatEntry;
+  chatList: () => ChatEntry[];
+  setChatById: (param: string) => void;
+};
+
+const ChatContext = createContext({} as ChatContextType);
 
 const fetchChatList = async () =>
   baseRequest({
@@ -50,14 +56,8 @@ export const ChatContextComponent = (props) => {
   </ChatContext.Provider>;
 };
 
-type ChatContextType = {
-  chat: () => ChatEntry;
-  chatList: () => ChatEntry[];
-  setChatById: (param: string) => void;
-};
-
 export const useChatContext = (): ChatContextType => {
-  const context = useContext(ChatContext) as ChatContextType;
+  const context = useContext(ChatContext);
   return {
     chat: () => context.chat(),
     chatList: () => context.chatList() || [],
