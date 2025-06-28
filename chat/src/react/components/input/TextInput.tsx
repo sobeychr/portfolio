@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react';
+import { type ChangeEvent, useRef } from 'react';
 
 export const DEFAULT_REGEXP = /([^A-z0-9-\_]|\[|\])/g;
 

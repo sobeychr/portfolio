@@ -1,0 +1,75 @@
+import { useUserContext } from '@s-context/user';
+import styles from '@styles/components/login/styles.module.scss';
+import { AUTH_COOKIE, AUTH_POST } from '@utils/configs';
+import { baseRequest, formRequest } from '@utils/request';
+import { getDocumentCookie } from '@utils/cookie';
+import { onMount } from 'solid-js';
+import { TextInput } from '@s-components/input/TextInput';
+
+export const Login = () => {
+  const { loginUser } = useUserContext();
+
+  let dialogRef;
+  let formRef;
+
+  const onSubmit = (e: Event) => {
+    e?.preventDefault();
+
+    formRequest({
+      form: formRef,
+    })
+      .then(resp => {
+        const { loggedIn, username } = resp;
+
+        if (!!loggedIn && !!username) {
+          dialogRef?.close();
+          loginUser(username);
+        }
+      });
+  };
+
+  onMount(() => {
+    const token = getDocumentCookie(AUTH_COOKIE);
+
+    const resetLogin = async () => {
+      baseRequest({
+        method: 'post',
+        postData: { token },
+        url: '/api/v1/reset',
+      })
+        .then(resp => {
+          const { loggedIn, username } = resp;
+
+          if (!!loggedIn && !!username) {
+            dialogRef?.close();
+            loginUser(username);
+          } else {
+            dialogRef?.showModal();
+          }
+        })
+        .catch(() => {
+          dialogRef?.showModal();
+        });
+    };
+
+    if (!!token) {
+      resetLogin();
+    } else {
+      dialogRef?.showModal();
+    }
+  });
+
+  return <dialog class={styles.dialog} ref={dialogRef}>
+    <form action='/api/v1/login' method='post' onSubmit={onSubmit} ref={formRef}>
+      <p>
+        <label for={AUTH_POST}>Username:</label>
+        <TextInput autoFocus id={AUTH_POST} />
+      </p>
+      <p>
+        <label>Password:</label>
+        <input type='text' class={styles.password} disabled value='disabled for demo' />
+      </p>
+      <button type='submit'>Login</button>
+    </form>
+  </dialog>;
+};

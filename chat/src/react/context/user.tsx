@@ -9,9 +9,9 @@ type UserContextType = {
 export const UserContext = createContext({} as UserContextType);
 
 export const UserContextComponent = ({ children }) => {
-  const [user, setUser] = useState(new CUser as CUser);
+  const [user, setUser] = useState(new CUser);
 
-  const loginUser = (username) => {
+  const loginUser = (username: string) => {
     setUser(new CUser({
       isLoggedIn: true,
       username,

@@ -1,22 +1,22 @@
 export const DEFAULT_REGEXP = /([^A-z0-9-\_\n\ ]|\[|\])/g;
 
-export const TextareaInput = ({ id, name: nameParam, onChange: onChangeParam, regexp: regexpParam, ref, ...rest }) => {
+export const TextareaInput = ({ id, name: nameParam, onKeyUp: onKeyUpParam, regexp: regexpParam, ref, ...rest }) => {
   let inputRef;
 
   const name = nameParam || id;
   const regexp = regexpParam || DEFAULT_REGEXP;
 
-  const onChange = (e: Event) => {
-    const valuePre = (ref || inputRef)?.current.value || '';
+  const onKeyUp = (e: Event) => {
+    const valuePre = (ref || inputRef)?.value || '';
     const valuePost = valuePre.replace(regexp, '');
 
-    if (ref?.current) ref.current.value = valuePost;
-    else if (inputRef?.current) inputRef.current.value = valuePost;
+    if (ref) ref.value = valuePost;
+    else if (inputRef) inputRef.value = valuePost;
 
-    if (typeof onChangeParam === 'function') {
-      onChangeParam(e);
+    if (typeof onKeyUpParam === 'function') {
+      onKeyUpParam(e);
     }
   };
 
-  return <textarea id={id} name={name} onChange={onChange} ref={ref || inputRef} {...rest} />;
+  return <textarea id={id} name={name} onKeyUp={onKeyUp} ref={ref || inputRef} {...rest} />;
 };

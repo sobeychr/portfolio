@@ -4,13 +4,13 @@ import styles from '@styles/components/sidebar/styles.module.scss';
 import { For } from 'solid-js';
 import { useChatContext } from '@s-context/chat';
 
-const Link = ({ color, icon, id, name, onClick }) => {
+const Link = ({ color, icon, name, onClick }) => {
   const style = {
     '--color': color,
     '--icon-image': `url(/icons/${icon}.svg)`,
   };
 
-  return <a class={styles.link} href={`#${name}`} onClick={onClick(id)} style={style}>
+  return <a class={styles.link} href={`#${name}`} onClick={onClick} style={style}>
     <span class={styles['link-name']}>{name}</span>
   </a>;
 };
@@ -18,7 +18,7 @@ const Link = ({ color, icon, id, name, onClick }) => {
 export const Sidebar = () => {
   const { chatList, setChatById } = useChatContext();
 
-  const onClick = (id: string) => (e: Event) => {
+  const onClick = (id: string, e: Event) => {
     e?.preventDefault();
 
     setChatById(id);
@@ -28,7 +28,7 @@ export const Sidebar = () => {
   return <aside class={styles.wrapper}>
     <nav>
       <For each={chatList()}>
-        {entry => <Link {...entry} id={entry.uuid} onClick={onClick} />}
+        {entry => <Link {...entry} id={entry.uuid} onClick={[onClick, entry.uuid]} />}
       </For>
     </nav>
   </aside>;

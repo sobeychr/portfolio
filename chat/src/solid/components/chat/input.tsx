@@ -2,10 +2,12 @@ import { useMessageContext } from '@s-context/message';
 import { TextareaInput } from '@s-components/input/TextareaInput';
 import styles from '@styles/components/chat/input.module.scss';
 import { useChatContext } from '@s-context/chat';
+import { useUserContext } from '@s-context/user';
 
 export const ChatInput = () => {
   const { chat } = useChatContext();
   const { offTyping, onTyping, sendMessage, store } = useMessageContext();
+  const { user } = useUserContext();
 
   let inputRef;
 
@@ -20,9 +22,9 @@ export const ChatInput = () => {
   const onKeyUp = (e: Event & KeyboardEvent) => {
     const input = e?.target?.value;
     if (input.length === 0) {
-      offTyping('my user');
+      offTyping(user().username);
     } else {
-      onTyping('my user');
+      onTyping(user().username);
     }
 
     const { altKey = false, ctrlKey = false, shiftKey = false, keyCode = 0 } = e || {};
@@ -41,12 +43,12 @@ export const ChatInput = () => {
         chatUuid: chat()?.uuid,
         content,
         timestamp: Date.now(),
-        username: 'my user',
+        username: user().username,
       });
     }
 
     inputRef.value = '';
-    offTyping('my user');
+    offTyping(user().username);
   };
 
   return (<footer class={styles.wrapper}>
