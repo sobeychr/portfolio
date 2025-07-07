@@ -33,9 +33,9 @@ export const ChatInput = () => {
   };
 
   const onKeyUp = (e: KeyboardEvent) => {
-    const { altKey = false, ctrlKey = false, shiftKey = false, keyCode = 0 } = e || {};
+    const { altKey = false, ctrlKey = false, shiftKey = false, key = 0 } = e || {};
     const isSubmit = altKey || ctrlKey || shiftKey;
-    if (keyCode === 13 && isSubmit) {
+    if (key === 'Enter' && isSubmit) {
       onSubmit();
     }
   };

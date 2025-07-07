@@ -10,7 +10,15 @@ import styles from '@styles/components/login/styles.module.scss';
 export const Login = () => {
   const dialogRef = useRef(null);
   const formRef = useRef(null);
+  const inputRef = useRef(null);
   const userContext = useContext(UserContext);
+
+  const onCancel = (e: KeyboardEvent) => {
+    if (e?.key === 'Escape') {
+      e?.preventDefault();
+      inputRef?.current?.focus();
+    }
+  };
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -29,6 +37,8 @@ export const Login = () => {
   };
 
   useEffect(() => {
+    document.addEventListener('keydown', onCancel);
+
     const token = getDocumentCookie(AUTH_COOKIE);
 
     const resetLogin = async () => {
@@ -57,13 +67,17 @@ export const Login = () => {
     } else {
       dialogRef?.current?.showModal();
     }
+
+    return () => {
+      document.addEventListener('keydown', onCancel);
+    };
   }, []);
 
   return <dialog className={styles.dialog} ref={dialogRef}>
     <form action='/api/v1/login' method='post' onSubmit={onSubmit} ref={formRef}>
       <p>
         <label htmlFor={AUTH_POST}>Username:</label>
-        <TextInput autoFocus id={AUTH_POST} />
+        <TextInput autoFocus id={AUTH_POST} ref={inputRef} />
       </p>
       <p>
         <label>Password:</label>
