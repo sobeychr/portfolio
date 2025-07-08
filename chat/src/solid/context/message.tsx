@@ -74,11 +74,11 @@ export const MessageContextComponent = (props) => {
       transports: ['websocket'],
       withCredentials: true,
     });
+    setLocalSocket(socket);
 
     socket.on('connect', () => {
       console.log('client connected', socket.id);
     });
-    setLocalSocket(socket);
 
     socket.on('connect_error', err => {
       console.log('client error', err);
@@ -108,6 +108,7 @@ export const MessageContextComponent = (props) => {
     socket.on('sTyping', ({ on, username }) => {
       const isSkip = (on && store.typing.includes(username))
         || (!on && !store.typing.includes(username));
+
       if (!isSkip) {
         setStore(state => {
           const uniques = !on ? [] : new Set([...state.typing, username]);

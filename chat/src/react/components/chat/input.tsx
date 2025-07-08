@@ -1,34 +1,26 @@
 import { type ChangeEvent, type FormEvent, type KeyboardEvent, useContext, useRef } from 'react';
 import { TextareaInput } from '@r-components/input/TextareaInput';
-import { ChatContext } from '@r-context/chat';
 import { MessageContext } from '@r-context/message';
-import { UserContext } from '@r-context/user';
 import styles from '@styles/components/chat/input.module.scss';
 
 export const ChatInput = () => {
-  const chatContext = useContext(ChatContext);
-  const messageContext = useContext(MessageContext);
-  const userContext = useContext(UserContext);
+  const { onTyping, offTyping, sendMessage, typingCount } = useContext(MessageContext);
   const inputRef = useRef(null);
 
-  const username = userContext?.user?.username;
-
-  // const typingList = (messageContext?.typing || []).filter(name => name !== username);
-  const typingList = (messageContext?.typing || []);
-  const isTyping = typingList.length > 0;
+  const isTyping = typingCount > 0;
 
   const typingClasses = [
     styles.typing,
     isTyping ? styles['is-typing'] : '',
   ];
-  const typingString = typingList.length === 1 ? 'other is typing' : 'others are typing';
+  const typingString = typingCount === 1 ? '1 other is typing' : `${typingCount} others are typing`;
 
   const onChange = (e: ChangeEvent) => {
     const input = e?.target?.value;
     if (input.length === 0) {
-      messageContext.offTyping(username);
+      offTyping();
     } else {
-      messageContext.onTyping(username);
+      onTyping();
     }
   };
 
@@ -46,21 +38,16 @@ export const ChatInput = () => {
     const content = (inputRef?.current?.value || '').trim();
 
     if (content.length > 0) {
-      messageContext.sendMessage({
-        chatUuid: chatContext?.chat?.uuid,
-        content,
-        timestamp: Date.now(),
-        username,
-      });
+      sendMessage(content);
     }
 
     inputRef.current.value = '';
-    messageContext.offTyping(username);
+    offTyping();
   };
 
   return (<footer className={styles.wrapper}>
     <p className={typingClasses.join(' ')}>
-      {typingList?.length} {typingString}
+      {typingString}
       <i className={styles.loading}></i>
       <i className={styles.loading}></i>
       <i className={styles.loading}></i>

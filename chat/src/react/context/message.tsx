@@ -1,42 +1,66 @@
-import { createContext, useEffect, useReducer, useState } from 'react';
+import { createContext, useContext, useEffect, useReducer, useState } from 'react';
 import { io } from 'socket.io-client';
-import { CMessage, type CMessageParam } from '@classes/CMessage';
+import { CMessage } from '@classes/CMessage';
+import { ChatContext } from '@r-context/chat';
+import { UserContext } from '@r-context/user';
 import { INIT_STATE, messageReducer, TYPE_LIST, TYPE_MESSAGE, TYPE_TYPING } from './messageReducer';
 
 type MessageContextType = {
-  messages: CMessage[];
-  offTyping: (param: string) => void;
-  onTyping: (param: string) => void;
-  sendMessage: (param: CMessageParam) => void;
-  typing: string[];
+  getMessages: () => CMessage[];
+  loadMessages: () => void;
+  offTyping: () => void;
+  onTyping: () => void;
+  sendMessage: (param: string) => void;
+  typingCount: number;
 };
 
 export const MessageContext = createContext({} as MessageContextType);
 
 export const MessageContextComponent = ({ children }) => {
+  const chatContext = useContext(ChatContext);
+  const userContext = useContext(UserContext);
   const [state, dispatch] = useReducer(messageReducer, INIT_STATE);
   const [localSocket, setLocalSocket] = useState({});
 
-  const sendMessage = (message: CMessageParam) => {
+  const getMessages = () => state.messages.filter(({ chatUuid }) => chatUuid === chatContext?.chat?.uuid);
+
+  const loadMessages = () => {
+    const chatUuid = chatContext?.chat?.uuid;
+    if (chatUuid) {
+      localSocket?.emit('cLoad', chatUuid);
+    }
+  };
+
+  const offTyping = () => {
+    const username = userContext?.user?.username;
+    const chatUuid = chatContext?.chat?.uuid;
+    localSocket?.emit('cTyping', { chatUuid, on: false, username });
+  };
+
+  const onTyping = () => {
+    const username = userContext?.user?.username;
+    const hasCurrentUsername = state.typing.includes(username);
+
+    if (!hasCurrentUsername) {
+      const chatUuid = chatContext?.chat?.uuid;
+      localSocket?.emit('cTyping', { chatUuid, on: true, username });
+    }
+  };
+
+  const sendMessage = (content: string) => {
+    const message = new CMessage({
+      chatUuid: chatContext?.chat?.uuid,
+      content,
+      timestamp: Date.now(),
+      username: userContext?.user?.username,
+    });
     localSocket?.emit('cMessage', new CMessage(message));
   };
 
-  const offTyping = (username: string) => {
-    const hasCurrentUsername = state.typing.includes(username);
-    if (hasCurrentUsername) {
-      localSocket?.emit('cTyping', { on: false, username });
-    }
-  };
-
-  const onTyping = (username: string) => {
-    const hasCurrentUsername = state.typing.includes(username);
-    if (!hasCurrentUsername) {
-      localSocket?.emit('cTyping', { on: true, username });
-    }
-  };
+  const typingCount = state.typing.length;
 
   useEffect(() => {
-    const socket = io('/api/v1/chats', {
+    const socket = io('/api/v1/message', {
       transports: ['websocket'],
       withCredentials: true,
     });
@@ -44,8 +68,6 @@ export const MessageContextComponent = ({ children }) => {
 
     socket.on('connect', () => {
       console.log('client connected', socket.id);
-
-      socket?.emit('cLoad');
     });
 
     socket.on('connect_error', err => {
@@ -65,22 +87,30 @@ export const MessageContextComponent = ({ children }) => {
         type: TYPE_MESSAGE,
       });
     });
-
-    socket.on('sTyping', ({ on, username }) => {
-      dispatch({
-        on,
-        type: TYPE_TYPING,
-        username,
-      });
-    });
   }, []);
 
+  useEffect(() => {
+    localSocket?.on?.('sTyping', ({ on, username }) => {
+      const isSkip = (on && state.typing.includes(username))
+        || (!on && !state.typing.includes(username));
+
+      if (!isSkip) {
+        dispatch({
+          on,
+          type: TYPE_TYPING,
+          username,
+        });
+      }
+    });
+  }, [localSocket, state.typing]);
+
   const value = {
-    messages: state.messages || [],
+    getMessages,
+    loadMessages,
     offTyping,
     onTyping,
     sendMessage,
-    typing: state.typing || [],
+    typingCount,
   };
 
   return (<MessageContext value={value}>

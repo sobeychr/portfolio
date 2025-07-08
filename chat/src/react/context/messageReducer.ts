@@ -47,10 +47,10 @@ export const messageReducer = (state: StateType, action: ActionType) => {
   else if (type === TYPE_TYPING) {
     const { on, username } = action;
 
-    const uniques = !on ? [] : new Set([...state.typing, username]);
-    const newTyping = on
-      ? Array.from(uniques)
+    const newList = on
+      ? [...state.typing, username]
       : [...state.typing].filter(name => name !== username);
+    const newTyping = Array.from(new Set(newList));
 
     return {
       ...state,

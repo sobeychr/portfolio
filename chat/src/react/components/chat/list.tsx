@@ -30,11 +30,11 @@ const ChatEntry = ({ message, prevDate }: ChatEntryParam) => {
 
 export const ChatList = () => {
   const chatContext = useContext(ChatContext);
-  const messageContext = useContext(MessageContext);
+  const { getMessages, loadMessages } = useContext(MessageContext);
   const scrollRef = useRef(null);
 
   const currentChat = chatContext?.chat?.uuid;
-  const list = (messageContext?.messages || []).filter(({ chatUuid }) => chatUuid === currentChat);
+  const list = getMessages();
 
   const messages = useMemo(() => {
     return list.map((entry, index) => {
@@ -47,6 +47,8 @@ export const ChatList = () => {
 
   useEffect(() => {
     scrollRef?.current?.scrollIntoView?.();
+
+    loadMessages();
   }, [currentChat, list.length]);
 
   return (
