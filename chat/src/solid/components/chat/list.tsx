@@ -30,11 +30,13 @@ const ChatEntry = ({ message, prevDate }: ChatEntryParam) => {
 };
 
 export const ChatList = () => {
-  const { getMessages } = useMessageContext();
+  const { getMessages, loadMessages } = useMessageContext();
   let scrollRef;
 
   createEffect(() => {
     scrollRef?.scrollIntoView?.();
+
+    loadMessages();
   });
 
   return (

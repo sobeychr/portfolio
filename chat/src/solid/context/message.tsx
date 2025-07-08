@@ -12,6 +12,7 @@ type StoreType = {
 
 type MessageContextType = {
   getMessages: () => CMessage[];
+  loadMessages: () => void;
   offTyping: () => void;
   onTyping: () => void;
   sendMessage: (param: string) => void;
@@ -32,6 +33,13 @@ export const MessageContextComponent = (props) => {
   const [store, setStore] = createStore(INIT_STATE);
 
   const getMessages = () => store.messages.filter(({ chatUuid }) => chatUuid === chatContext?.chat()?.uuid);
+
+  const loadMessages = () => {
+    const chatUuid = chatContext?.chat()?.uuid;
+    if (chatUuid) {
+      localSocket()?.emit('cLoad', chatUuid);
+    }
+  };
 
   const offTyping = () => {
     const username = userContext?.user()?.username;
@@ -69,8 +77,6 @@ export const MessageContextComponent = (props) => {
 
     socket.on('connect', () => {
       console.log('client connected', socket.id);
-      const chatUuid = chatContext?.chat()?.uuid;
-      socket?.emit('cLoad', chatUuid);
     });
     setLocalSocket(socket);
 
@@ -120,6 +126,7 @@ export const MessageContextComponent = (props) => {
 
   const value = {
     getMessages,
+    loadMessages,
     offTyping,
     onTyping,
     sendMessage,

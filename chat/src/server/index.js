@@ -13,9 +13,9 @@ const createServer = async () => {
   const app = express();
   const server = http.createServer(app, {
     cors: {
-      origin: `${SERVER_HOST}:${SERVER_PORT}`,
-      methods: ['GET', 'POST'],
       credentials: true,
+      methods: ['GET', 'POST'],
+      origin: `${SERVER_HOST}:${SERVER_PORT}`,
     },
   });
   const vite = await createViteServer({
