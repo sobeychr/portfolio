@@ -1,5 +1,5 @@
 import { createEffect, For, Show } from 'solid-js';
-import { useChatContext } from '@s-context/chat';
+import type { CMessage } from '@classes/CMessage';
 import { useMessageContext } from '@s-context/message';
 import styles from '@styles/components/chat/list.module.scss';
 
@@ -30,22 +30,18 @@ const ChatEntry = ({ message, prevDate }: ChatEntryParam) => {
 };
 
 export const ChatList = () => {
-  const { chat } = useChatContext();
-  const { store } = useMessageContext();
+  const { getMessages } = useMessageContext();
   let scrollRef;
 
-  const list = () => store.messages.filter(({ chatUuid }) => chatUuid === chat()?.uuid) || [];
-
   createEffect(() => {
-    list();
     scrollRef?.scrollIntoView?.();
   });
 
   return (
     <section class={styles.wrapper}>
-      <For each={list()}>
+      <For each={getMessages()}>
         {(entry, index) => {
-          const prev = store.messages[index() - 1];
+          const prev = getMessages()[index() - 1];
           const prevDate = prev?.date.getDate() || 0;
 
           return <ChatEntry message={entry} prevDate={prevDate} />;

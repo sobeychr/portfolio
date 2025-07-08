@@ -7,6 +7,7 @@ import { errorMiddleware } from './middlewares/error.js';
 import { authRoutes } from './routes/auth.js';
 import { chatRoutes } from './routes/chat.js';
 import { homeRoutes } from './routes/home.js';
+import { messageRoutes } from './routes/message.js';
 
 const createServer = async () => {
   const app = express();
@@ -22,6 +23,7 @@ const createServer = async () => {
   authRoutes(app);
   chatRoutes(app, options);
   homeRoutes(app, options);
+  messageRoutes(app, options);
   errorMiddleware(app);
 
   server.listen(SERVER_PORT, SERVER_HOST, () => {

@@ -1,7 +1,9 @@
 import { io } from 'socket.io-client';
 import { createContext, createSignal, onMount, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { CMessage, type CMessageParam } from '@classes/CMessage';
+import { CMessage } from '@classes/CMessage';
+import { useChatContext } from '@s-context/chat';
+import { useUserContext } from '@s-context/user';
 
 type StoreType = {
   messages: CMessage[];
@@ -9,10 +11,11 @@ type StoreType = {
 };
 
 type MessageContextType = {
-  offTyping: (param: string) => void;
-  onTyping: (param: string) => void;
-  sendMessage: (param: CMessageParam) => void;
-  store: StoreType;
+  getMessages: () => CMessage[];
+  offTyping: () => void;
+  onTyping: () => void;
+  sendMessage: (param: string) => void;
+  typingCount: () => number;
 };
 
 const INIT_STATE = {
@@ -23,37 +26,55 @@ const INIT_STATE = {
 export const MessageContext = createContext({} as MessageContextType);
 
 export const MessageContextComponent = (props) => {
+  const chatContext = useChatContext();
+  const userContext = useUserContext();
   const [localSocket, setLocalSocket] = createSignal({});
   const [store, setStore] = createStore(INIT_STATE);
 
-  const offTyping = (username: string) => {
+  const getMessages = () => store.messages.filter(({ chatUuid }) => chatUuid === chatContext?.chat()?.uuid);
+
+  const offTyping = () => {
+    const username = userContext?.user()?.username;
     const hasCurrentUsername = store.typing.includes(username);
+
     if (hasCurrentUsername) {
-      localSocket()?.emit('cTyping', { on: false, username });
+      const chatUuid = chatContext?.chat()?.uuid;
+      localSocket()?.emit('cTyping', { chatUuid, on: false, username });
     }
   };
 
-  const onTyping = (username: string) => {
+  const onTyping = () => {
+    const username = userContext?.user()?.username;
     const hasCurrentUsername = store.typing.includes(username);
+
     if (!hasCurrentUsername) {
-      localSocket()?.emit('cTyping', { on: true, username });
+      const chatUuid = chatContext?.chat()?.uuid;
+      localSocket()?.emit('cTyping', { chatUuid, on: true, username });
     }
   };
 
-  const sendMessage = (message: CMessageParam) => {
-    localSocket()?.emit('cMessage', new CMessage(message));
+  const sendMessage = (content: string) => {
+    const message = new CMessage({
+      chatUuid: chatContext?.chat()?.uuid,
+      content,
+      timestamp: Date.now(),
+      username: userContext?.user()?.username,
+    });
+    localSocket()?.emit('cMessage', message);
   };
+
+  const typingCount = () => store.typing.length;
 
   onMount(() => {
-    const socket = io('/api/v1/chats', {
+    const socket = io('/api/v1/message', {
       transports: ['websocket'],
       withCredentials: true,
     });
 
     socket.on('connect', () => {
       console.log('client connected', socket.id);
-
-      socket?.emit('cLoad');
+      const chatUuid = chatContext?.chat()?.uuid;
+      socket?.emit('cLoad', chatUuid);
     });
     setLocalSocket(socket);
 
@@ -98,10 +119,11 @@ export const MessageContextComponent = (props) => {
   });
 
   const value = {
+    getMessages,
     offTyping,
     onTyping,
     sendMessage,
-    store,
+    typingCount,
   };
 
   return <MessageContext.Provider value={value}>

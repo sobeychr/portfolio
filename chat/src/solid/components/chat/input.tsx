@@ -1,31 +1,24 @@
 import { TextareaInput } from '@s-components/input/TextareaInput';
-import { useChatContext } from '@s-context/chat';
 import { useMessageContext } from '@s-context/message';
-import { useUserContext } from '@s-context/user';
 import styles from '@styles/components/chat/input.module.scss';
 
 export const ChatInput = () => {
-  const { chat } = useChatContext();
-  const { offTyping, onTyping, sendMessage, store } = useMessageContext();
-  const { user } = useUserContext();
+  const { typingCount, offTyping, onTyping, sendMessage } = useMessageContext();
 
   let inputRef;
 
-  // const isTyping = () => store.typing.filter(name => name !== username).length > 0;
-  const isTyping = () => store.typing.length > 0;
-
   const typingClasses = () => ({
     [styles.typing]: true,
-    [styles['is-typing']]: isTyping(),
+    [styles['is-typing']]: typingCount() > 0,
   });
-  const typingString = () => store.typing.length === 1 ? '1 other is typing' : `${store.typing.length} others are typing`;
+  const typingString = () => typingCount() === 1 ? '1 other is typing' : `${typingCount()} others are typing`;
 
   const onKeyUp = (e: Event & KeyboardEvent) => {
     const input = e?.target?.value;
     if (input.length === 0) {
-      offTyping(user().username);
+      offTyping();
     } else {
-      onTyping(user().username);
+      onTyping();
     }
 
     const { altKey = false, ctrlKey = false, shiftKey = false, key = 0 } = e || {};
@@ -40,16 +33,11 @@ export const ChatInput = () => {
     const content = (inputRef?.value || '').trim();
 
     if (content.length > 0) {
-      sendMessage({
-        chatUuid: chat()?.uuid,
-        content,
-        timestamp: Date.now(),
-        username: user().username,
-      });
+      sendMessage(content);
     }
 
     inputRef.value = '';
-    offTyping(user().username);
+    offTyping();
   };
 
   return (<footer class={styles.wrapper}>
