@@ -35,12 +35,8 @@ export const MessageContextComponent = (props) => {
 
   const offTyping = () => {
     const username = userContext?.user()?.username;
-    const hasCurrentUsername = store.typing.includes(username);
-
-    if (hasCurrentUsername) {
-      const chatUuid = chatContext?.chat()?.uuid;
-      localSocket()?.emit('cTyping', { chatUuid, on: false, username });
-    }
+    const chatUuid = chatContext?.chat()?.uuid;
+    localSocket()?.emit('cTyping', { chatUuid, on: false, username });
   };
 
   const onTyping = () => {
@@ -104,17 +100,21 @@ export const MessageContextComponent = (props) => {
     });
 
     socket.on('sTyping', ({ on, username }) => {
-      setStore(state => {
-        const uniques = !on ? [] : new Set([...state.typing, username]);
-        const newTyping = on
-          ? Array.from(uniques)
-          : [...state.typing].filter(name => name !== username);
+      const isSkip = (on && store.typing.includes(username))
+        || (!on && !store.typing.includes(username));
+      if (!isSkip) {
+        setStore(state => {
+          const uniques = !on ? [] : new Set([...state.typing, username]);
+          const newTyping = on
+            ? Array.from(uniques)
+            : [...state.typing].filter(name => name !== username);
 
-        return {
-          ...state,
-          typing: newTyping,
-        };
-      });
+          return {
+            ...state,
+            typing: newTyping,
+          };
+        });
+      }
     });
   });
 

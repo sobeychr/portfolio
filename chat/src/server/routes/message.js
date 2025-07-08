@@ -28,10 +28,11 @@ export const messageRoutes = (app, options = {}) => {
       saveFile(path, JSON.stringify(newList));
 
       socket.emit('sMessage', newMessage);
+      socket.broadcast.emit('sMessage', newMessage);
     });
 
     socket.on('cTyping', ({ chatUuid, on, username }) => {
-      socket.emit('sTyping', { chatUuid, on, username });
+      socket.broadcast.emit('sTyping', { chatUuid, on, username });
     });
   });
 };

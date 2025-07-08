@@ -11,7 +11,13 @@ import { messageRoutes } from './routes/message.js';
 
 const createServer = async () => {
   const app = express();
-  const server = http.createServer(app);
+  const server = http.createServer(app, {
+    cors: {
+      origin: `${SERVER_HOST}:${SERVER_PORT}`,
+      methods: ['GET', 'POST'],
+      credentials: true,
+    },
+  });
   const vite = await createViteServer({
     appType: 'custom',
     server: { middlewareMode: true },
@@ -21,7 +27,7 @@ const createServer = async () => {
 
   coreMiddleware(app, options);
   authRoutes(app);
-  chatRoutes(app, options);
+  chatRoutes(app);
   homeRoutes(app, options);
   messageRoutes(app, options);
   errorMiddleware(app);
