@@ -8,7 +8,10 @@ const limitTimeout = timeout => {
   return Math.min(TIMEOUT_MAX, Math.max(number, TIMEOUT_MIN));
 };
 
-export const AUTH_COOKIE = 'token';
+export const AUTH_COOKIE_TOKEN = 'token';
+export const AUTH_COOKIE_REFRESH = 'refresh';
+export const AUTH_REFRESH = process?.env?.AUTH_REFRESH;
+export const AUTH_TOKEN = process?.env?.AUTH_TOKEN;
 export const AUTH_POST = 'username';
 
 export const DURATION_HOUR = 3600;

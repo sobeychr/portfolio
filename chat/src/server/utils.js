@@ -5,18 +5,6 @@ import { PATH_ROOT } from './configs.js';
 const FILE_OPTIONS = { encoding: 'utf-8' };
 const PATH_DATA = PATH_ROOT.concat('src/server/data/');
 
-export const decodeToken = token => {
-  const [, payload = ''] = token.split('.');
-  return JSON.parse(atob(payload) || '{}') || {};
-};
-
-export const getCookieHeader = (cookieName, cookieValue, duration) => {
-  return [
-    'Set-Cookie',
-    `${cookieName}=${cookieValue}; Path=/; Max-Age=${duration}`
-  ];
-};
-
 export const getFile = (path, asJson = true) => {
   const filepath = resolve(PATH_DATA, path);
   if (!existsSync(filepath)) {

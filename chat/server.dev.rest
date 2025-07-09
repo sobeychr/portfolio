@@ -1,0 +1,26 @@
+###
+GET http://test-chat.local:3000/
+
+###
+GET http://test-chat.local:3000/invalid
+
+###
+GET http://test-chat.local:3000/react
+
+###
+GET http://test-chat.local:3000/solid
+
+###
+GET http://test-chat.local:3000/api/v1/chat/list
+
+###
+POST http://test-chat.local:3000/api/v1/login
+Content-Type: application/json
+
+{
+  "username": "mock-user"
+}
+
+###
+POST http://test-chat.local:3000/api/v1/reset
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vY2stdXNlciIsImlhdCI6MTc1MjA5MTEyMSwiZXhwIjoxNzUyMTEyNzIxfQ.66Rt22l5K53-DPpKh5U-_RRwvy0wdF9C6c-I1JPPLV0

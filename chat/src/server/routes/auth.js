@@ -1,31 +1,31 @@
-import { AUTH_COOKIE, AUTH_POST, DURATION_DAY, DURATION_WEEK } from './../configs.js';
-import { decodeToken, getCookieHeader, getToken } from './../utils.js';
+import { decodeToken, generateTokens, getAuthToken, getTokens, saveTokens, validateToken } from './../auth-utils.js';
+import { AUTH_COOKIE_REFRESH, AUTH_COOKIE_TOKEN, AUTH_POST } from './../configs.js';
 
 export const authRoutes = app => {
-  const getExpires = () => Math.floor(Date.now() * .001) + DURATION_WEEK;
-
-  const unauthResponse = res => res
+  const unauthResponse = response => response
     .status(401)
-    .append(...getCookieHeader(AUTH_COOKIE, '', -1))
+    .append('Set-Cookie', `${AUTH_COOKIE_TOKEN}=; Path=/; Max-Age=-1`)
+    .append('Set-Cookie', `${AUTH_COOKIE_REFRESH}=; Path=/; Max-Age=-1`)
     .send(JSON.stringify({
       loggedIn: false,
     })).end();
 
-  app.post('/api/v1/login', async (req, res) => {
+  app.post('/api/v1/login', (req, res) => {
     const username = req.body?.[AUTH_POST] || ''; // from POST
+    const prevTokens = getTokens(username);
+    const isValid = !!username && !prevTokens;
 
-    if (username) {
-      const expires = getExpires();
-      const newToken = getToken({ expires, username });
-      const cookieHeader = getCookieHeader(AUTH_COOKIE, newToken, DURATION_WEEK);
+    if (isValid) {
+      const payload = { username };
+      const newTokenData = generateTokens(payload);
+
+      saveTokens(username, newTokenData);
 
       res
         .status(200)
-        .append(...cookieHeader)
         .send(JSON.stringify({
-          expires,
+          ...newTokenData,
           loggedIn: true,
-          token: newToken,
           username,
         })).end();
 
@@ -35,47 +35,25 @@ export const authRoutes = app => {
     unauthResponse(res);
   });
 
-  app.post('/api/v1/reset', async (req, res) => {
-    const tokenCookie = req.cookies?.[AUTH_COOKIE] || ''; // from COOKIE
-    const tokenPost = req.body?.[AUTH_COOKIE] || ''; // from POST
-    const token = tokenPost || tokenCookie;
+  app.post('/api/v1/reset', (req, res) => {
+    const isValid = validateToken(req, true);
+    if (isValid) {
+      const token = getAuthToken(req);
+      const { username } = decodeToken(token);
+      const payload = { username };
+      const newTokenData = generateTokens(payload);
 
-    if (token) {
-      const { expires = 0, username = '' } = decodeToken(token);
-      const diff = expires - Math.floor(Date.now() * 0.001);
-      const isValid = diff > 0 && !!username;
+      saveTokens(username, newTokenData);
 
-      if (isValid) {
+      res
+        .status(200)
+        .send(JSON.stringify({
+          ...newTokenData,
+          loggedIn: true,
+          username,
+        })).end();
 
-        const isNeedRefresh = diff < DURATION_DAY;
-        if (isNeedRefresh) {
-          const newExpires = getExpires();
-          const newToken = getToken({ expires: newExpires, username });
-          const cookieHeader = getCookieHeader(AUTH_COOKIE, newToken, DURATION_WEEK);
-
-          res
-            .status(200)
-            .append(...cookieHeader)
-            .send(JSON.stringify({
-              expires,
-              loggedIn: true,
-              token: newToken,
-              username,
-            })).end();
-          return false;
-        }
-
-        // regular valid
-        res
-          .status(200)
-          .send(JSON.stringify({
-            expires,
-            loggedIn: true,
-            token,
-            username,
-          })).end();
-        return false;
-      }
+      return false;
     }
 
     unauthResponse(res);

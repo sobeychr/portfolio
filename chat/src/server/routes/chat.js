@@ -1,3 +1,4 @@
+import { validateToken } from './../auth-utils.js';
 import { getFile } from './../utils.js';
 
 export const chatRoutes = (app) => {
@@ -11,7 +12,7 @@ export const chatRoutes = (app) => {
     return cacheList;
   };
 
-  app.get('/api/v1/chat/list', (_req, res) => {
+  app.get('/api/v1/chat/list', (req, res) => {
     const data = getList();
 
     res
@@ -21,5 +22,6 @@ export const chatRoutes = (app) => {
         'Content-Type': 'application/json; charset=utf-8',
       })
       .send(data).end();
+    return false;
   });
 };
