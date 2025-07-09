@@ -3,6 +3,8 @@ import { io } from 'socket.io-client';
 import { CMessage } from '@classes/CMessage';
 import { ChatContext } from '@r-context/chat';
 import { UserContext } from '@r-context/user';
+import { AUTH_TOKEN } from '@utils/configs';
+import { getDocumentCookie } from '@utils/cookie';
 import { INIT_STATE, messageReducer, TYPE_LIST, TYPE_MESSAGE, TYPE_TYPING } from './messageReducer';
 
 type MessageContextType = {
@@ -21,6 +23,8 @@ export const MessageContextComponent = ({ children }) => {
   const userContext = useContext(UserContext);
   const [state, dispatch] = useReducer(messageReducer, INIT_STATE);
   const [localSocket, setLocalSocket] = useState({});
+
+  const isLoggedIn = userContext?.user?.isLoggedIn;
 
   const getMessages = () => state.messages.filter(({ chatUuid }) => chatUuid === chatContext?.chat?.uuid);
 
@@ -60,34 +64,37 @@ export const MessageContextComponent = ({ children }) => {
   const typingCount = state.typing.length;
 
   useEffect(() => {
-    const socket = io('/api/v1/message', {
-      transports: ['websocket'],
-      withCredentials: true,
-    });
-    setLocalSocket(socket);
-
-    socket.on('connect', () => {
-      console.log('client connected', socket.id);
-    });
-
-    socket.on('connect_error', err => {
-      console.log('client error', err);
-    });
-
-    socket.on('sLoad', list => {
-      dispatch({
-        list,
-        type: TYPE_LIST,
+    const authToken = getDocumentCookie(AUTH_TOKEN);
+    if (!!authToken && isLoggedIn) {
+      const socket = io('/api/v1/message', {
+        transports: ['websocket'],
+        withCredentials: true,
       });
-    });
+      setLocalSocket(socket);
 
-    socket.on('sMessage', ({ chatUuid, content, timestamp, username }) => {
-      dispatch({
-        message: new CMessage({ chatUuid, content, timestamp, username }),
-        type: TYPE_MESSAGE,
+      socket.on('connect', () => {
+        console.log('client connected', socket.id);
       });
-    });
-  }, []);
+
+      socket.on('connect_error', err => {
+        console.log('client error', err);
+      });
+
+      socket.on('sLoad', list => {
+        dispatch({
+          list,
+          type: TYPE_LIST,
+        });
+      });
+
+      socket.on('sMessage', ({ chatUuid, content, timestamp, username }) => {
+        dispatch({
+          message: new CMessage({ chatUuid, content, timestamp, username }),
+          type: TYPE_MESSAGE,
+        });
+      });
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     localSocket?.on?.('sTyping', ({ on, username }) => {
