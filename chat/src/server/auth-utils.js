@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { AUTH_REFRESH, AUTH_TOKEN } from './configs.js';
+import { AUTH_COOKIE_TOKEN, AUTH_REFRESH, AUTH_TOKEN } from './configs.js';
 import { getFile, saveFile } from './utils.js';
 
 const EXPIRE_REFRESH = '6h';
@@ -50,6 +50,18 @@ export const saveTokens = (username, tokenData) => {
     [username]: tokenData,
   };
   saveFile(PATH_CACHE, JSON.stringify(newCache));
+};
+
+export const validateCookie = (request) => {
+  const accessCookie = request?.cookies?.[AUTH_COOKIE_TOKEN] || '';
+  const { username } = decodeToken(accessCookie);
+  const prevTokens = getTokens(username);
+
+  const prevToken = prevTokens?.token;
+  const prevExpire = prevTokens?.token_expire;
+  const now = Date.now() * .001;
+
+  return prevToken === accessCookie && now < prevExpire;
 };
 
 export const validateToken = (request, asRefresh = false) => {

@@ -1,18 +1,31 @@
+import cookieParser from 'cookie-parser';
 import { Server as IoServer } from 'socket.io';
+import { validateCookie, validateToken } from './../auth-utils.js';
 import { getFile, saveFile } from './../utils.js';
 
-export const messageRoutes = (app, options = {}) => {
+export const messageRoutes = (_app, options = {}) => {
   const { server } = options;
 
   const io = new IoServer(server);
-  /*
-  io.use((socket, next) => {
 
+  io.engine.use(cookieParser());
+  io.engine.use((req, _res, next) => {
+    const isValid = validateToken(req) || validateCookie(req);
+
+    if (isValid) {
+      next();
+    }
+    else {
+      next(new Error('unauthorized request'));
+    }
   });
-  */
 
   io.of('/api/v1/message').on('connection', (socket) => {
     console.log('server connected', socket.id);
+
+    socket.on('connect_error', err => {
+      console.log('connection error', socket.id, err);
+    });
 
     socket.on('disconnect', () => {
       console.log('server disconnected', socket.id);

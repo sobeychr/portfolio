@@ -1,9 +1,11 @@
 import { io } from 'socket.io-client';
-import { createContext, createSignal, onMount, useContext } from 'solid-js';
+import { createContext, createEffect, createSignal, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { CMessage } from '@classes/CMessage';
 import { useChatContext } from '@s-context/chat';
 import { useUserContext } from '@s-context/user';
+import { AUTH_TOKEN } from '@utils/configs';
+import { getDocumentCookie } from '@utils/cookie';
 
 type StoreType = {
   messages: CMessage[];
@@ -36,7 +38,7 @@ export const MessageContextComponent = (props) => {
 
   const loadMessages = () => {
     const chatUuid = chatContext?.chat()?.uuid;
-    if (chatUuid) {
+    if (chatUuid && userContext?.user().isLoggedIn) {
       localSocket()?.emit('cLoad', chatUuid);
     }
   };
@@ -69,60 +71,65 @@ export const MessageContextComponent = (props) => {
 
   const typingCount = () => store.typing.length;
 
-  onMount(() => {
-    const socket = io('/api/v1/message', {
-      transports: ['websocket'],
-      withCredentials: true,
-    });
-    setLocalSocket(socket);
-
-    socket.on('connect', () => {
-      console.log('client connected', socket.id);
-    });
-
-    socket.on('connect_error', err => {
-      console.log('client error', err);
-    });
-
-    socket.on('sLoad', list => {
-      setStore({ messages: CMessage.generateList(list || []) });
-    });
-
-    socket.on('sMessage', ({ chatUuid, content, timestamp, username }) => {
-      setStore(state => {
-        const newMessage = new CMessage({
-          chatUuid,
-          content,
-          timestamp,
-          username,
-        });
-        const newList = [...state.messages, newMessage].sort(CMessage.sort);
-
-        return {
-          ...state,
-          messages: newList,
-        };
+  createEffect(() => {
+    const authToken = getDocumentCookie(AUTH_TOKEN);
+    if (!!authToken && userContext?.user().isLoggedIn) {
+      const socket = io('/api/v1/message', {
+        extraHeaders: {
+          Authorization: `Bearer ${authToken}`,
+        },
+        withCredentials: true,
       });
-    });
+      setLocalSocket(socket);
 
-    socket.on('sTyping', ({ on, username }) => {
-      const isSkip = (on && store.typing.includes(username))
-        || (!on && !store.typing.includes(username));
+      socket.on('connect', () => {
+        console.log('client connected', socket.id);
+      });
 
-      if (!isSkip) {
+      socket.on('connect_error', err => {
+        console.log('client error', err);
+      });
+
+      socket.on('sLoad', list => {
+        setStore({ messages: CMessage.generateList(list || []) });
+      });
+
+      socket.on('sMessage', ({ chatUuid, content, timestamp, username }) => {
         setStore(state => {
-          const uniques = !on ? [] : new Set([...state.typing, username]);
-          const newTyping = on
-            ? Array.from(uniques)
-            : [...state.typing].filter(name => name !== username);
+          const newMessage = new CMessage({
+            chatUuid,
+            content,
+            timestamp,
+            username,
+          });
+          const newList = [...state.messages, newMessage].sort(CMessage.sort);
 
           return {
             ...state,
-            typing: newTyping,
+            messages: newList,
           };
         });
-      }
-    });
+      });
+
+      socket.on('sTyping', ({ on, username }) => {
+        const isSkip = (on && store.typing.includes(username))
+          || (!on && !store.typing.includes(username));
+
+        if (!isSkip) {
+          setStore(state => {
+            const uniques = !on ? [] : new Set([...state.typing, username]);
+            const newTyping = on
+              ? Array.from(uniques)
+              : [...state.typing].filter(name => name !== username);
+
+            return {
+              ...state,
+              typing: newTyping,
+            };
+          });
+        }
+      });
+    }
   });
 
   const value = {

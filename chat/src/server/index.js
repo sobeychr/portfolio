@@ -13,8 +13,8 @@ const createServer = async () => {
   const app = express();
   const server = http.createServer(app, {
     cors: {
+      allowedHeaders: ['Authorization'],
       credentials: true,
-      methods: ['GET', 'POST'],
       origin: `${SERVER_HOST}:${SERVER_PORT}`,
     },
   });
