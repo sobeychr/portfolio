@@ -11,17 +11,19 @@ type optsParam = {
   expires?: Date;
   maxAge?: number;
   path?: string;
+  timestamp?: number;
 };
 
 export const setDocumentCookie = (cookieName: string, value: number | string, opts: optsParam = {}) => {
   const options = [
     opts.expires && `expires=${opts.expires}`,
     opts.maxAge && `max-age=${opts.maxAge}`,
+    opts.timestamp && `max-age=${opts.timestamp - Date.now()}`,
     `path=${opts.path || '/'}`,
   ].filter(Boolean);
 
   const newStr = `${cookieName}=${value};${options.join(';')};`;
-  if (!!document && !!document.cookie) {
+  if (typeof document?.cookie !== 'undefined') {
     document.cookie = newStr;
   }
 };

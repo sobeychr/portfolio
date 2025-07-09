@@ -1,4 +1,4 @@
-import { decodeToken, generateTokens, getAuthToken, getTokens, saveTokens, validateToken } from './../auth-utils.js';
+import { decodeToken, generateTokens, getAuthToken, saveTokens, validateToken } from './../auth-utils.js';
 import { AUTH_COOKIE_REFRESH, AUTH_COOKIE_TOKEN, AUTH_POST } from './../configs.js';
 
 export const authRoutes = app => {
@@ -12,8 +12,7 @@ export const authRoutes = app => {
 
   app.post('/api/v1/login', (req, res) => {
     const username = req.body?.[AUTH_POST] || ''; // from POST
-    const prevTokens = getTokens(username);
-    const isValid = !!username && !prevTokens;
+    const isValid = !!username;
 
     if (isValid) {
       const payload = { username };

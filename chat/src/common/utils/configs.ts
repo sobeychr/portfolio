@@ -1,4 +1,5 @@
-export const AUTH_COOKIE = 'token';
+export const AUTH_REFRESH = 'refresh';
+export const AUTH_TOKEN = 'token';
 export const AUTH_POST = 'username';
 
 export const CHAT_COOKIE = 'chat';

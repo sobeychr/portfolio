@@ -1,7 +1,7 @@
 import { onCleanup, onMount } from 'solid-js';
 import { TextInput } from '@s-components/input/TextInput';
-import { useUserContext } from '@s-context/user';
-import { AUTH_COOKIE, AUTH_POST } from '@utils/configs';
+import { type LoginUserParam, useUserContext } from '@s-context/user';
+import { AUTH_POST, AUTH_REFRESH } from '@utils/configs';
 import { getDocumentCookie } from '@utils/cookie';
 import { baseRequest, formRequest } from '@utils/request';
 import styles from '@styles/components/login/styles.module.scss';
@@ -26,12 +26,12 @@ export const Login = () => {
     formRequest({
       form: formRef,
     })
-      .then(resp => {
+      .then((resp: LoginUserParam) => {
         const { loggedIn, username } = resp;
 
         if (!!loggedIn && !!username) {
           dialogRef?.close();
-          loginUser(username);
+          loginUser(resp);
         }
       });
   };
@@ -39,20 +39,22 @@ export const Login = () => {
   onMount(() => {
     document.addEventListener('keydown', onCancel);
 
-    const token = getDocumentCookie(AUTH_COOKIE);
+    const refreshToken = getDocumentCookie(AUTH_REFRESH);
 
-    const resetLogin = async () => {
+    const resetLogin = () => {
       baseRequest({
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
         method: 'post',
-        postData: { token },
         url: '/api/v1/reset',
       })
-        .then(resp => {
+        .then((resp: LoginUserParam) => {
           const { loggedIn, username } = resp;
 
           if (!!loggedIn && !!username) {
             dialogRef?.close();
-            loginUser(username);
+            loginUser(resp);
           } else {
             dialogRef?.showModal();
           }
@@ -62,7 +64,7 @@ export const Login = () => {
         });
     };
 
-    if (!!token) {
+    if (!!refreshToken) {
       resetLogin();
     } else {
       dialogRef?.showModal();

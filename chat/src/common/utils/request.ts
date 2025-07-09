@@ -2,6 +2,7 @@ type BaseRequestParam = {
   asJson?: boolean;
   getData?: object;
   method?: 'get' | 'post' | undefined;
+  headers?: object;
   origin?: string;
   postData?: object;
   url: string;
@@ -11,6 +12,7 @@ export const baseRequest = async ({
   asJson = true,
   getData = {},
   method,
+  headers = {},
   origin = '',
   postData = {},
   url,
@@ -25,6 +27,7 @@ export const baseRequest = async ({
   return fetch(request, {
     body: !hasPost ? null : JSON.stringify(postData),
     headers: new Headers({
+      ...headers,
       'Content-Type': `${contentType};charset=utf-8`,
     }),
     method: method || (hasPost && 'post') || 'get',

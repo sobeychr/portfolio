@@ -5,9 +5,11 @@ export const messageRoutes = (app, options = {}) => {
   const { server } = options;
 
   const io = new IoServer(server);
+  /*
   io.use((socket, next) => {
 
   });
+  */
 
   io.of('/api/v1/message').on('connection', (socket) => {
     console.log('server connected', socket.id);

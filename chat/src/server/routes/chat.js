@@ -1,4 +1,3 @@
-import { validateToken } from './../auth-utils.js';
 import { getFile } from './../utils.js';
 
 export const chatRoutes = (app) => {
