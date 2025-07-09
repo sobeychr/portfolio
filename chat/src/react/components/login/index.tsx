@@ -2,7 +2,7 @@ import type { FormEvent } from 'react';
 import { useContext, useEffect, useRef } from 'react';
 import { TextInput } from '@r-components/input/TextInput';
 import { UserContext } from '@r-context/user';
-import { AUTH_COOKIE, AUTH_POST } from '@utils/configs';
+import { AUTH_REFRESH, AUTH_POST } from '@utils/configs';
 import { getDocumentCookie } from '@utils/cookie';
 import { baseRequest, formRequest } from '@utils/request';
 import styles from '@styles/components/login/styles.module.scss';
@@ -26,12 +26,12 @@ export const Login = () => {
     formRequest({
       form: formRef?.current,
     })
-      .then(resp => {
+      .then((resp: LoginUserParam) => {
         const { loggedIn, username } = resp;
 
         if (!!loggedIn && !!username) {
           dialogRef?.current?.close();
-          userContext.loginUser(username);
+          userContext.loginUser(resp);
         }
       });
   };
@@ -39,20 +39,22 @@ export const Login = () => {
   useEffect(() => {
     document.addEventListener('keydown', onCancel);
 
-    const token = getDocumentCookie(AUTH_COOKIE);
+    const refreshToken = getDocumentCookie(AUTH_REFRESH);
 
-    const resetLogin = async () => {
+    const resetLogin = () => {
       baseRequest({
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
         method: 'post',
-        postData: { token },
         url: '/api/v1/reset',
       })
-        .then(resp => {
+        .then((resp: LoginUserParam) => {
           const { loggedIn, username } = resp;
 
           if (!!loggedIn && !!username) {
             dialogRef?.current?.close();
-            userContext.loginUser(username);
+            userContext.loginUser(resp);
           } else {
             dialogRef?.current?.showModal();
           }
@@ -62,7 +64,7 @@ export const Login = () => {
         });
     };
 
-    if (!!token) {
+    if (!!refreshToken) {
       resetLogin();
     } else {
       dialogRef?.current?.showModal();
