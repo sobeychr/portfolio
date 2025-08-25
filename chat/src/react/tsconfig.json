@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "extends": "../../tsconfig.json",
+  "include": [
+    "src/common",
+    "src/react"
+  ]
+}

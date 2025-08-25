@@ -1,0 +1,73 @@
+@use 'sass:list' as list;
+@use '@styles/helpers.scss' as helpers;
+@use '@styles/chatColors.scss' as chatColors;
+
+.header {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.link-name {
+  background-color: var(--link-background);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 3px rgb(0 0 0 / 50%);
+  color: var(--color);
+  display: block;
+  left: 110%;
+  padding: 1em 0.5em;
+  position: absolute;
+  scale: 0;
+  top: 50%;
+  transform-origin: center left;
+  transition: scale var(--transition-default);
+  translate: 0 -50%;
+  white-space: nowrap;
+}
+
+.link {
+  --link-background: var(--bg-color);
+  --icon-color: var(--color);
+  --icon-height: 1.7rem;
+
+  background-color: var(--link-background);
+  border-radius: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  position: relative;
+  transition: var(--transition-default);
+  transition-property: background-color, border-radius;
+
+  &:hover {
+    --icon-color: var(--link-background);
+
+    background-color: var(--color);
+    border-radius: 0.5rem;
+
+    .link-name {
+      display: block;
+      scale: 1;
+    }
+  }
+
+  @include helpers.beforeIcon;
+}
+
+$length: list.length(chatColors.$COLORS);
+
+@each $color in chatColors.$COLORS {
+  $index: list.index(chatColors.$COLORS, $color);
+  $selector: $length + 'n' + ' + #{$index}';
+
+  .link:nth-child(#{$selector}) {
+    --color: #{$color};
+  }
+}
+
+.wrapper {
+  background-color: var(--bg-color-dark0);
+  height: calc(100vh - 2em);
+  padding: 1em;
+  width: 55px;
+  z-index: 2;
+}

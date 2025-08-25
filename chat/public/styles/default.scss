@@ -1,0 +1,144 @@
+html,
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: Ubuntu, Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-width: 700px;
+  padding: 0;
+}
+
+a {
+  --color: var(--link-color);
+
+  color: var(--color);
+  text-decoration: none;
+  transition: color var(--transition-default);
+
+  &:hover {
+    --color: var(--link-color-hover);
+
+    text-decoration: underline;
+  }
+}
+
+button {
+  --color: var(--link-color);
+
+  background: var(--bg-color-dark0);
+  border: 2px solid var(--color);
+  border-radius: var(--radius);
+  color: var(--color);
+  cursor: pointer;
+  margin: 0.3em;
+  padding: 0.3em 0.5em;
+  transition: var(--transition-default);
+  transition-property: border, color;
+
+  &:disabled {
+    pointer-events: none;
+  }
+
+  &:hover {
+    --color: var(--link-color-hover);
+  }
+}
+
+code {
+  background: var(--bg-color-dark1);
+  padding: 0.3em 0.5em;
+}
+
+dialog {
+  background: var(--bg-color);
+  border-radius: 1em;
+  color: var(--text-color);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 50%);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 0.5em;
+  padding: 0;
+}
+
+label[for] {
+  cursor: pointer;
+}
+
+input:is([type='number'], [type='password'], [type='text']),
+textarea {
+  --color: var(--input-color);
+
+  background: var(--bg-color-dark0);
+  border: 2px solid var(--color);
+  border-radius: 0.8em;
+  color: var(--color);
+  margin: 0.3em;
+  outline: none;
+  padding: 0.3em 0.5em;
+  transition: var(--transition-default);
+  transition-property: border, border-radius, color;
+
+  &:disabled,
+  &[readonly] {
+    --color: var(--input-color-disabled);
+
+    font-style: italic;
+  }
+
+  &:focus {
+    --color: var(--input-color-focus);
+
+    border-radius: 0.5em;
+  }
+
+  &:hover:not(:disabled, :focus) {
+    --color: var(--input-color-hover);
+  }
+}
+
+p {
+  margin: 0 0 0.5em;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+[data-title] {
+  position: relative;
+
+  &::after {
+    background-color: var(--bg-color-dark1);
+    border-radius: 0.8em;
+    color: var(--text-color-dark0);
+    content: attr(data-title);
+    left: 0;
+    opacity: 0;
+    padding: 0.5em 0.8em;
+    position: absolute;
+    scale: 0;
+    top: 0;
+    transform-origin: top left;
+    transition: var(--transition-default);
+    transition-property: opacity, scale;
+    white-space: nowrap;
+    word-break: keep-all;
+    z-index: 2;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    scale: 1;
+  }
+}

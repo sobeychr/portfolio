@@ -1,0 +1,15 @@
+{
+  "delay": 750,
+  "ignore": [
+    "node_modules",
+    "public",
+    "src/react",
+    "src/server/data/cache"
+  ],
+  "watch": [
+    ".env",
+    "index.html",
+    "src/server"
+  ],
+  "verbose": true
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "icon": "bank",
+    "index": 0,
+    "name": "Euler",
+    "uuid": "01db94cf-b179-4121-abc9-d7f46364c4ee"
+  },
+  {
+    "icon": "building",
+    "index": 1,
+    "name": "Pascal",
+    "uuid": "46a3c254-6596-4f73-ae74-11de2a218e8b"
+  },
+  {
+    "icon": "car-side",
+    "index": 2,
+    "name": "Ramanujan",
+    "uuid": "489d9a3a-704e-40df-ab51-7369f49aff98"
+  },
+  {
+    "icon": "home",
+    "index": 3,
+    "name": "Cori",
+    "uuid": "d8b2b48a-b7d8-4965-a70f-2c5e2b36ef9f"
+  },
+  {
+    "icon": "plane-alt",
+    "index": 4,
+    "name": "Nightingale",
+    "uuid": "a5bb1bdc-02af-4b1d-be73-79973f65e944"
+  },
+  {
+    "icon": "rocket-lunch",
+    "index": 5,
+    "name": "Bassi",
+    "uuid": "acc74bd8-1a94-44b4-9edd-cf8f472e26dd"
+  },
+  {
+    "icon": "truck-side",
+    "index": 6,
+    "name": "Bouman",
+    "uuid": "fdae5f49-a938-40fd-9bb2-e5b0a212d9f4"
+  }
+]

@@ -1,0 +1,40 @@
+$PADDING: 2em;
+
+@keyframes dialogInit {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    border-radius: 1em;
+    padding: $PADDING;
+  }
+
+  40%,
+  43% {
+    border-radius: 0.5em;
+    padding: $PADDING * 1.5;
+  }
+
+  70% {
+    border-radius: 0.75em;
+    padding: $PADDING * 1.25;
+  }
+
+  90% {
+    border-radius: 0.9em;
+    padding: $PADDING * 1.1;
+  }
+}
+
+.dialog {
+  animation: dialogInit 1s ease 1;
+  border: none;
+  box-shadow: 0 0 5px rgb(255 255 255 / 10%);
+  padding: $PADDING;
+  width: 400px;
+}
+
+.password {
+  text-align: center;
+}

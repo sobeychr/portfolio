@@ -4,7 +4,41 @@
   "description": "Demo chat system for portfolio purpose",
   "license": "ISC",
   "author": "",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon -L --env-file=.env src/server/index.js --config nodemon.config.json",
+    "devClient": "vite dev",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "stylelint": "stylelint **/*.{css,scss}",
+    "stylelint:fix": "stylelint **/*.{css,scss} --fix"
+  },
+  "dependencies": {
+    "chalk": "5.4.1",
+    "connect-timeout": "1.9.1",
+    "cookie-parser": "1.4.7",
+    "express": "5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "response-time": "2.3.4",
+    "socket.io": "4.8.1",
+    "socket.io-client": "4.8.1",
+    "solid-js": "1.9.7",
+    "uuid": "11.1.0",
+    "vite": "6.3.5"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.8",
+    "@typescript-eslint/parser": "8.34.1",
+    "@vitejs/plugin-react": "4.5.2",
+    "eslint": "9.29.0",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "nodemon": "3.1.10",
+    "react-dom": "19.1.0",
+    "sass-embedded": "1.89.2",
+    "stylelint": "16.20.0",
+    "stylelint-config-alphabetical-order": "1.0.0",
+    "stylelint-config-standard-scss": "15.0.1",
+    "typescript-eslint": "8.34.1",
+    "vite-plugin-solid": "2.11.7"
   }
 }

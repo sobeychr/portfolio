@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "paths": {
+      "@classes/*": [
+        "src/common/classes/*"
+      ],
+      "@styles/*": [
+        "src/common/styles/*"
+      ],
+      "@utils/*": [
+        "src/common/utils/*"
+      ],
+      "@r-components/*": [
+        "src/react/components/*"
+      ],
+      "@r-context/*": [
+        "src/react/context/*"
+      ],
+      "@r-core/*": [
+        "src/react/core/*"
+      ],
+      "@s-components/*": [
+        "src/solid/components/*"
+      ],
+      "@s-context/*": [
+        "src/solid/context/*"
+      ],
+      "@s-core/*": [
+        "src/solid/core/*"
+      ]
+    },
+    "strictNullChecks": true
+  },
+  "exclude": [
+    "public",
+    "node_modules"
+  ],
+  "include": [
+    "src/common",
+    "src/react",
+    "src/solid"
+  ]
+}
