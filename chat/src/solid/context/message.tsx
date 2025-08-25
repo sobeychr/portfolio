@@ -38,7 +38,7 @@ export const MessageContextComponent = (props) => {
 
   const loadMessages = () => {
     const chatUuid = chatContext?.chat()?.uuid;
-    if (chatUuid && userContext?.user().isLoggedIn) {
+    if (chatUuid && userContext?.user().isLoggedIn && localSocket()?.emit) {
       localSocket()?.emit('cLoad', chatUuid);
     }
   };
@@ -53,7 +53,7 @@ export const MessageContextComponent = (props) => {
     const username = userContext?.user()?.username;
     const hasCurrentUsername = store.typing.includes(username);
 
-    if (!hasCurrentUsername) {
+    if (!hasCurrentUsername && localSocket()?.emit) {
       const chatUuid = chatContext?.chat()?.uuid;
       localSocket()?.emit('cTyping', { chatUuid, on: true, username });
     }

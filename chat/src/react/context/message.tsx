@@ -30,8 +30,8 @@ export const MessageContextComponent = ({ children }) => {
 
   const loadMessages = () => {
     const chatUuid = chatContext?.chat?.uuid;
-    if (chatUuid) {
-      localSocket?.emit('cLoad', chatUuid);
+    if (chatUuid && localSocket?.emit) {
+      localSocket.emit('cLoad', chatUuid);
     }
   };
 
