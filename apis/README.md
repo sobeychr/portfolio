@@ -4,6 +4,8 @@
 
 Exercise to load various API endpoints and cache them.
 
+This application demonstrates loading multiple micro-services and load their content very efficiently with caching.
+
 ## Setup
 
 1. `npm i` to install dependencies
@@ -22,21 +24,13 @@ Make sure your virtual host is added for custom `SERVER_HOST`
 127.0.0.1 localhost test-apis.local my-custom-domain.env
 ```
 
-_Docker redis is not fully documented yet._
-
 ## ENV Configs
 * `SERVER_HOST: string` name of the test environment, ex `'localhost', 'test-mall.local', 'my-custom-domain.env'`
 * `SERVER_PORT: int` port number of the test environment
-
-## Common bugs
-
-1. Localhost does not launch
-   * make sure you have added your vitual host
-   * if `SERVER_OPEN=0`, open the browser manually
-   * double check typo errors `'localhsot:3000' vs 'localhost:3000'`
-   * always read the console tab
 
 ### Pages
 
 1. `http://test-widgets.local:3000/` home page, explains the basics
 2. `http://test-widgets.local:3000/demo` demo page, showcases the exercise
+
+<img src='documentation/demo-0.png' alt='Demo' />

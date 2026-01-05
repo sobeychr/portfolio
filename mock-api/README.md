@@ -4,6 +4,10 @@
 
 Stand-alone API tool to return mocked results.
 
+This application allows to run a mocked server locally. It was very useful when building front-end applications when back-end wasn't ready yet. It was also very useful when working with purchases and managing account memberships.
+
+This application is intentionally small and straight to the point. Since it is a mocked server, "if you are using too much logic, you arenot mocking anymore".
+
 ### Setup
 
 1. `npm i` to install packages
@@ -40,6 +44,8 @@ module.exports = onDev;
 #### Multiple routes
 
 If you need to host a lot of custom endpoints, it is recommended to split them among files. Keep your files under `src/routes/*.js` and they should be automatically included (as per custom routes above).
+
+<img src='documentation/demo-0.png' alt='Demo' />
 
 ### Local data
 

@@ -2,7 +2,11 @@
 
 ## Introduction
 
-Low level chat application.
+Simple chat application, done with React and SolidJS.
+
+The same application is done on both frameworks to show the flexibility and ease of translation. SolidJS has been prooven to be much faster than React and to have a smaller bundled JS file. Both applications are connected to the same database.
+
+Once setup, you can chat with yourself on multiple incognito tabs.
 
 ### Setup
 
@@ -28,6 +32,8 @@ Low level chat application.
 3. select either *React* or *Solid* based application
 4. login as a mocked user to the chat
 5. select the different chat channels on the left
+
+<img src='documentation/demo-0.png' alt='Demo' />
 
 ### File structure
 

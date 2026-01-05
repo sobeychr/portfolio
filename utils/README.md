@@ -4,6 +4,8 @@
 
 Various utils files with Jest and Rollup.
 
+This application is showcasing a simple utils files with its Unit Tests. The final content is bundled via RollUp and makes it available for publishing. Each functions are described below, as all libraries should have their own documentation.
+
 ### build.js - getBuildDetails()
 
 Provides Node version, NPM version and current operating system.

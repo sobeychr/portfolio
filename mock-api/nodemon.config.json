@@ -1,6 +1,7 @@
 {
   "delay": 750,
   "watch": [
+    ".env",
     "src"
   ],
   "verbose": true
