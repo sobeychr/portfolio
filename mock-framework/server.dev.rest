@@ -1,6 +1,8 @@
 @host = http://{{$dotenv SERVER_HOST}}:{{$dotenv SERVER_PORT}}
 @blank = {{host}}/blank
+@mini = {{host}}/mini
 
+# BLANK server =========
 ###
 GET {{blank}}/
 
@@ -9,3 +11,16 @@ GET {{blank}}/alpha
 
 ###
 GET {{blank}}/not-found
+
+# MINI server =========
+###
+GET {{mini}}/
+
+###
+GET {{mini}}/test
+
+###
+GET {{mini}}/test/abc
+
+###
+POST {{mini}}/test/lorem
