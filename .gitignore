@@ -6,6 +6,7 @@ dist/
 node_modules/
 
 .env
+server.rest
 docker-compose.yaml
 
 npm-debug.log*

@@ -1,0 +1,11 @@
+@host = http://{{$dotenv SERVER_HOST}}:{{$dotenv SERVER_PORT}}
+@blank = {{host}}/blank
+
+###
+GET {{blank}}/
+
+###
+GET {{blank}}/alpha
+
+###
+GET {{blank}}/not-found
