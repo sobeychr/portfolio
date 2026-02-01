@@ -4,15 +4,21 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "blank": "bun --no-clear-screen --watch run blank/index.ts"
+    "blank": "bun --no-clear-screen --watch run blank/index.ts",
+    "mini": "bun --no-clear-screen --watch run mini/index.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/glob-to-regexp": "^0.4.4"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "engines": {
     "node": ">=24.11"
+  },
+  "dependencies": {
+    "colorette": "^2.0.20",
+    "glob-to-regexp": "^0.4.1"
   }
 }

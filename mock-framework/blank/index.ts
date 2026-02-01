@@ -1,8 +1,9 @@
+import { cyan, magenta } from 'colorette';
 import { serve, type BunRequest, type Server } from 'bun';
 
 const PREFIX = '/blank';
 
-const mainServer = serve({
+const blankServer = serve({
   port: process.env.SERVER_PORT,
   hostname: process.env.SERVER_HOST,
 
@@ -48,4 +49,8 @@ const mainServer = serve({
   }
 });
 
-console.log('server running at', mainServer.url.origin.concat(PREFIX));
+console.log(
+  cyan('>>'),
+  'server running at',
+  magenta(blankServer.url.origin.concat(PREFIX)),
+);
